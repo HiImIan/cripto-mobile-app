@@ -5,7 +5,7 @@ import 'package:brasilcripto/app/core/services/http/http_service.dart';
 import 'package:brasilcripto/app/core/services/result/result.dart';
 import 'package:dio/dio.dart';
 
-typedef _Request = Future<Response<Map<String, dynamic>>> Function();
+typedef _Request = Future<Response<dynamic>> Function();
 
 class DioImpl implements HttpService {
   final Dio _dio;
@@ -118,6 +118,10 @@ class DioImpl implements HttpService {
     Response response, {
     int defaultStatusCode = 200,
   }) {
-    return HttpResponse(statusCode: response.statusCode ?? 200);
+    final data = response.data;
+    return HttpResponse(
+      statusCode: response.statusCode ?? defaultStatusCode,
+      body: data as T,
+    );
   }
 }
