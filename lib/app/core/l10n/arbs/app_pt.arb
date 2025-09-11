@@ -6,7 +6,6 @@
     "brazilCrypto":"Brasil Crypto",
     "actualPrice": "Preço atual",
     "totalVolume": "Volume no mercado",
-    "": "",
     "valuePercentage": "{percentage}%",
     "@valuePercentage": {
         "description": "{percentage}%",

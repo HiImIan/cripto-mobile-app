@@ -10,9 +10,6 @@ class AppTheme {
       centerTitle: true,
       actionsIconTheme: IconThemeData(color: CustomColors.white),
     ),
-    iconButtonTheme: IconButtonThemeData(
-      style: IconButton.styleFrom(foregroundColor: CustomColors.white),
-    ),
     textTheme: TextTheme(
       titleLarge: TextStyle(color: CustomColors.white),
       titleMedium: TextStyle(color: CustomColors.white),
@@ -35,7 +32,8 @@ class AppTheme {
           brightness: Brightness.dark,
         ).copyWith(
           error: CustomColors.redSwatch,
-          secondary: CustomColors.redSwatch.shade600,
+          secondary: CustomColors.redSwatch.shade400,
+          secondaryContainer: CustomColors.redSwatch.shade700,
           tertiary: CustomColors.amber,
           surface: CustomColors.background,
           primary: CustomColors.green,

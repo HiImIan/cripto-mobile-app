@@ -38,6 +38,7 @@ class _TodoScreenState extends State<CryptosPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.replay_outlined),
+            splashRadius: 16,
             onPressed: cryptosViewModel.refresh,
           ),
         ],

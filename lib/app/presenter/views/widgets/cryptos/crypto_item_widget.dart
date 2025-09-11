@@ -6,13 +6,21 @@ import 'package:flutter/material.dart';
 
 class CryptoItemWidget extends StatelessWidget {
   final Crypto crypto;
-  const CryptoItemWidget({super.key, required this.crypto});
+  final VoidCallback? onFavoriteToggle;
+  const CryptoItemWidget({
+    super.key,
+    required this.crypto,
+    required this.onFavoriteToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // theme
     final theme = Theme.of(context);
     final textStyle = theme.textTheme;
     final colors = theme.colorScheme;
+
+    // crypto datas
     final price = Price.formatCurrency(
       crypto.currentPrice ?? 0,
     ).replaceAll('.', ',');
@@ -20,6 +28,15 @@ class CryptoItemWidget extends StatelessWidget {
     final bool isPositive = percentage != null && percentage >= 0;
     final volume24h = crypto.totalVolume;
     final image = crypto.image;
+    final isFavorite = crypto.isFavorite;
+
+    // colors
+    final favoriteIconColor = isFavorite
+        ? colors.secondaryContainer
+        : colors.onSurface;
+    final favoriteHoverColor = !isFavorite
+        ? colors.secondaryContainer
+        : colors.onSurface;
 
     final l10n = LocalizationService.instance.l10n;
     return Card(
@@ -30,6 +47,7 @@ class CryptoItemWidget extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            // Icon, symbol, name and favorite
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -67,14 +85,21 @@ class CryptoItemWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Icon(Icons.favorite_border, color: colors.onSurface),
+                SizedBox(width: 8),
+                IconButton(
+                  icon: Icon(Icons.favorite_border),
+                  color: favoriteIconColor,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  visualDensity: VisualDensity.compact,
+                  splashRadius: 20,
+                  splashColor: favoriteHoverColor,
+                  onPressed: onFavoriteToggle,
                 ),
               ],
             ),
-            // Main info
             const SizedBox(height: 8),
+            // Price, percentage change
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -96,6 +121,7 @@ class CryptoItemWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
+            // Volume
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -108,8 +134,6 @@ class CryptoItemWidget extends StatelessWidget {
                   ),
               ],
             ),
-
-            // Percentage change
           ],
         ),
       ),

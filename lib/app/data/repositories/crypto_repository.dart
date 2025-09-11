@@ -10,7 +10,7 @@ class CryptoRepository {
 
   Future<Result<List<Crypto>>> get(int page) async {
     final headers = {'x-cg-demo-api-key': 'CG-PfbR94AhHpC9ptTgk8SSX5fB'};
-    final params = {"vs_currency": "usd", "page": page};
+    final params = {"vs_currency": "brl", "page": page};
 
     final result = await _http.get(
       '/coins/markets',

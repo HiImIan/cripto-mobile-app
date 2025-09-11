@@ -1,11 +1,13 @@
 import 'package:brasilcripto/app/core/routes/routes.dart';
 import 'package:brasilcripto/app/data/repositories/crypto_repository.dart';
+import 'package:brasilcripto/app/data/repositories/favorites_respository.dart';
 import 'package:brasilcripto/app/presenter/models/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CryptoViewModel extends ChangeNotifier {
   final CryptoRepository _cryptoRepository;
+  final FavoritesRepository _favoritesRepository;
 
   List<Crypto> get cryptos => _partialCryptos;
   final List<Crypto> _allCryptos = [];
@@ -21,8 +23,22 @@ class CryptoViewModel extends ChangeNotifier {
 
   int _currentPage = 0;
 
-  CryptoViewModel({required CryptoRepository cryptoRepository})
-    : _cryptoRepository = cryptoRepository;
+  CryptoViewModel({
+    required CryptoRepository cryptoRepository,
+    required FavoritesRepository favoritesRepository,
+  }) : _favoritesRepository = favoritesRepository,
+       _cryptoRepository = cryptoRepository;
+
+  //==============================================
+  //---------------- Main Request ----------------
+  //==============================================
+
+  Future<void> refresh() async {
+    _currentPage = 0;
+    _allCryptos.clear();
+    _partialCryptos.clear();
+    load();
+  }
 
   Future<void> load() async {
     if (isLoading) return;
@@ -43,16 +59,51 @@ class CryptoViewModel extends ChangeNotifier {
 
   void incrementPartialCryptos() {
     if (!hasMoreItem) return;
-    _partialCryptos.addAll(_allCryptos.skip(_partialCryptos.length).take(10));
+    final newCryptos = _allCryptos.skip(_partialCryptos.length).take(10);
+    _partialCryptos.addAll(newCryptos);
+    updateFavorites(newCryptos);
     notifyListeners();
   }
 
-  Future<void> refresh() async {
-    _currentPage = 0;
-    _allCryptos.clear();
-    _partialCryptos.clear();
-    load();
+  //==================================================
+  //---------------- Favorite Methods ----------------
+  //==================================================
+
+  void updateFavorites(Iterable<Crypto> newCryptos) {
+    for (var crypto in newCryptos) {
+      _favoritesRepository.isFavorite(crypto.id).then((isFav) {
+        final index = _partialCryptos.indexWhere((c) => c.id == crypto.id);
+        if (index != -1) {
+          _partialCryptos[index] = _partialCryptos[index].copyWith(
+            isFavorite: isFav,
+          );
+          notifyListeners();
+        }
+      });
+    }
   }
+
+  void toggleFavorite(String cryptoId) async {
+    final index = _partialCryptos.indexWhere((crypto) => cryptoId == crypto.id);
+    if (index == -1) return;
+
+    if (await _favoritesRepository.isFavorite(cryptoId)) {
+      await _favoritesRepository.removeFromFavorites(cryptoId);
+      _partialCryptos[index] = _partialCryptos[index].copyWith(
+        isFavorite: false,
+      );
+    } else {
+      await _favoritesRepository.addToFavorites(cryptoId);
+      _partialCryptos[index] = _partialCryptos[index].copyWith(
+        isFavorite: true,
+      );
+    }
+    notifyListeners();
+  }
+
+  //========================================
+  //---------------- Routes ----------------
+  //========================================
 
   void goToDetails(BuildContext context, String cryptoId) =>
       context.push(Routes.cryptoDetails(cryptoId));

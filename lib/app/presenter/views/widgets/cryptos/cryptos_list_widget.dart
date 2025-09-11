@@ -37,7 +37,11 @@ class CryptosListWidget extends StatelessWidget {
                 cryptos.indexOf(crypto).toString(),
               );
             },
-            child: CryptoItemWidget(crypto: crypto),
+            child: CryptoItemWidget(
+              crypto: crypto,
+              onFavoriteToggle: () =>
+                  cryptosViewModel.toggleFavorite(crypto.id),
+            ),
           );
         },
       ),
