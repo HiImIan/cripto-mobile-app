@@ -7,4 +7,35 @@ import 'app_localizations.dart';
 /// The translations for Portuguese (`pt`).
 class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
+
+  @override
+  String get loading => 'Carregando';
+
+  @override
+  String get errorList => 'Nenhuma criptomoeda encontrada';
+
+  @override
+  String get tryAgain => 'Tentar Novamente';
+
+  @override
+  String get loadingMoreCryptos => 'Carregar mais Criptos';
+
+  @override
+  String get brazilCrypto => 'Brasil Crypto';
+
+  @override
+  String get actualPrice => 'Preço atual';
+
+  @override
+  String get totalVolume => 'Volume no mercado';
+
+  @override
+  String valuePercentage(String percentage) {
+    return '$percentage%';
+  }
+
+  @override
+  String price(String price) {
+    return 'R\$ $price';
+  }
 }

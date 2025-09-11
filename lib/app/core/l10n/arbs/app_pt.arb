@@ -1,1 +1,28 @@
-{}
+{
+    "loading": "Carregando",
+    "errorList": "Nenhuma criptomoeda encontrada",
+    "tryAgain":"Tentar Novamente",
+    "loadingMoreCryptos": "Carregar mais Criptos",
+    "brazilCrypto":"Brasil Crypto",
+    "actualPrice": "Preço atual",
+    "totalVolume": "Volume no mercado",
+    "": "",
+    "valuePercentage": "{percentage}%",
+    "@valuePercentage": {
+        "description": "{percentage}%",
+        "placeholders":{
+            "percentage":{
+                "type": "String"
+            }
+        }
+    },
+    "price": "R$ {price}",
+    "@price": {
+        "description": "R$ {price}",
+        "placeholders":{
+            "price":{
+                "type": "String"
+            }
+        }
+    }
+}

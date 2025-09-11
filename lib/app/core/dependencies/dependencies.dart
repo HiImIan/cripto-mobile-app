@@ -1,6 +1,7 @@
 import 'package:brasilcripto/app/core/services/http/dio_impl.dart';
 import 'package:brasilcripto/app/core/services/http/http_service.dart';
 import 'package:brasilcripto/app/data/repositories/crypto_repository.dart';
+import 'package:brasilcripto/app/presenter/view_models/crypto_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -12,5 +13,8 @@ List<SingleChildWidget> get providers {
           DioImpl(Dio(), baseUrl: "https://api.coingecko.com/api/v3"),
     ),
     Provider(create: (context) => CryptoRepository(http: context.read())),
+    ChangeNotifierProvider(
+      create: (ctx) => CryptoViewModel(cryptoRepository: ctx.read()),
+    ),
   ];
 }

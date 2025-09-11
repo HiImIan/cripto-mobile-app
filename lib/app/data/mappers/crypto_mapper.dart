@@ -5,12 +5,13 @@ abstract class CryptoMapper {
     return Crypto(
       id: json["id"].toString(),
       image: json["image"],
+      symbol: json["symbol"].toString().toUpperCase(),
       name: json["name"],
-      currentPrice: double.parse(json["current_price"].toString()),
-      percentageChange: double.parse(
+      currentPrice: double.tryParse(json["current_price"].toString()),
+      percentageChange: double.tryParse(
         json["price_change_percentage_24h"].toString(),
       ),
-      totalVolume: double.parse(json["total_volume"].toString()),
+      totalVolume: double.tryParse(json["total_volume"].toString()),
     );
   }
 

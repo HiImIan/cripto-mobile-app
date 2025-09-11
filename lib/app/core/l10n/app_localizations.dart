@@ -97,6 +97,60 @@ abstract class AppLocalizations {
     Locale('en'),
     Locale('pt'),
   ];
+
+  /// No description provided for @loading.
+  ///
+  /// In pt, this message translates to:
+  /// **'Carregando'**
+  String get loading;
+
+  /// No description provided for @errorList.
+  ///
+  /// In pt, this message translates to:
+  /// **'Nenhuma criptomoeda encontrada'**
+  String get errorList;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In pt, this message translates to:
+  /// **'Tentar Novamente'**
+  String get tryAgain;
+
+  /// No description provided for @loadingMoreCryptos.
+  ///
+  /// In pt, this message translates to:
+  /// **'Carregar mais Criptos'**
+  String get loadingMoreCryptos;
+
+  /// No description provided for @brazilCrypto.
+  ///
+  /// In pt, this message translates to:
+  /// **'Brasil Crypto'**
+  String get brazilCrypto;
+
+  /// No description provided for @actualPrice.
+  ///
+  /// In pt, this message translates to:
+  /// **'Preço atual'**
+  String get actualPrice;
+
+  /// No description provided for @totalVolume.
+  ///
+  /// In pt, this message translates to:
+  /// **'Volume no mercado'**
+  String get totalVolume;
+
+  /// {percentage}%
+  ///
+  /// In pt, this message translates to:
+  /// **'{percentage}%'**
+  String valuePercentage(String percentage);
+
+  /// R$ {price}
+  ///
+  /// In pt, this message translates to:
+  /// **'R\$ {price}'**
+  String price(String price);
 }
 
 class _AppLocalizationsDelegate
