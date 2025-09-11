@@ -9,7 +9,16 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get loading => 'Carregando';
+  String get loading => 'Carregando criptomoedas';
+
+  @override
+  String get loadingFavorites => 'Carregando seus favoritos';
+
+  @override
+  String get noFavoriteCryptos => 'Você ainda não tem moedas favoritas';
+
+  @override
+  String get clickOnIconToFavorite => 'Clique nesse ícone';
 
   @override
   String get errorList => 'Nenhuma criptomoeda encontrada';

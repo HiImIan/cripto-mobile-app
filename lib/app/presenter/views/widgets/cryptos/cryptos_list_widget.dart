@@ -1,10 +1,10 @@
-import 'package:brasilcripto/app/presenter/view_models/crypto_view_model.dart';
-import 'package:brasilcripto/app/presenter/views/widgets/cryptos/crypto_item_widget.dart';
+import 'package:brasilcripto/app/presenter/view_models/cryptos_view_model.dart';
+import 'package:brasilcripto/app/presenter/views/widgets/crypto_item_widget.dart';
 import 'package:brasilcripto/app/presenter/views/widgets/cryptos/exceptions/cryptos_load_more_widget.dart';
 import 'package:flutter/material.dart';
 
 class CryptosListWidget extends StatelessWidget {
-  final CryptoViewModel cryptosViewModel;
+  final CryptosViewModel cryptosViewModel;
   const CryptosListWidget({super.key, required this.cryptosViewModel});
 
   @override
@@ -17,11 +17,9 @@ class CryptosListWidget extends StatelessWidget {
         separatorBuilder: (context, index) => SizedBox(height: 4),
         itemCount: length + ((cryptosViewModel.hasMoreItem) ? 1 : 0),
         itemBuilder: (context, index) {
-          print("index: $index");
           if (index == length - 5) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (cryptosViewModel.hasMoreItem) cryptosViewModel.load();
-              cryptosViewModel.incrementPartialCryptos();
+              cryptosViewModel.load();
             });
           }
 
@@ -37,10 +35,11 @@ class CryptosListWidget extends StatelessWidget {
                 cryptos.indexOf(crypto).toString(),
               );
             },
-            child: CryptoItemWidget(
+            child: CryptosItemWidget(
               crypto: crypto,
-              onFavoriteToggle: () =>
-                  cryptosViewModel.toggleFavorite(crypto.id),
+              onFavoriteToggle: () {
+                cryptosViewModel.toggleFavorite(crypto.id);
+              },
             ),
           );
         },

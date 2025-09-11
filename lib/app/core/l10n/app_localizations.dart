@@ -101,8 +101,26 @@ abstract class AppLocalizations {
   /// No description provided for @loading.
   ///
   /// In pt, this message translates to:
-  /// **'Carregando'**
+  /// **'Carregando criptomoedas'**
   String get loading;
+
+  /// No description provided for @loadingFavorites.
+  ///
+  /// In pt, this message translates to:
+  /// **'Carregando seus favoritos'**
+  String get loadingFavorites;
+
+  /// No description provided for @noFavoriteCryptos.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você ainda não tem moedas favoritas'**
+  String get noFavoriteCryptos;
+
+  /// No description provided for @clickOnIconToFavorite.
+  ///
+  /// In pt, this message translates to:
+  /// **'Clique nesse ícone'**
+  String get clickOnIconToFavorite;
 
   /// No description provided for @errorList.
   ///

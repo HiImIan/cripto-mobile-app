@@ -21,7 +21,7 @@ class CryptosLoadMoreWidget extends StatelessWidget {
           children: [
             CircularProgressIndicator(color: colors.primary, strokeWidth: 2),
             SizedBox(height: 12),
-            Text(l10n.loadingMoreCryptos, style: textStyle.labelSmall),
+            Text(l10n.loadingMoreCryptos, style: textStyle.bodyLarge),
           ],
         ),
       ),

@@ -4,10 +4,10 @@ import 'package:brasilcripto/app/presenter/models/crypto.dart';
 import 'package:brasilcripto/app/presenter/models/helpers/price_convertors.dart';
 import 'package:flutter/material.dart';
 
-class CryptoItemWidget extends StatelessWidget {
+class CryptosItemWidget extends StatelessWidget {
   final Crypto crypto;
   final VoidCallback? onFavoriteToggle;
-  const CryptoItemWidget({
+  const CryptosItemWidget({
     super.key,
     required this.crypto,
     required this.onFavoriteToggle,
@@ -21,9 +21,8 @@ class CryptoItemWidget extends StatelessWidget {
     final colors = theme.colorScheme;
 
     // crypto datas
-    final price = Price.formatCurrency(
-      crypto.currentPrice ?? 0,
-    ).replaceAll('.', ',');
+    final currentPrice = crypto.currentPrice;
+    final hasPrice = currentPrice != null;
     final percentage = crypto.percentageChange;
     final bool isPositive = percentage != null && percentage >= 0;
     final volume24h = crypto.totalVolume;
@@ -32,11 +31,11 @@ class CryptoItemWidget extends StatelessWidget {
 
     // colors
     final favoriteIconColor = isFavorite
-        ? colors.secondaryContainer
+        ? colors.primaryFixed
         : colors.onSurface;
     final favoriteHoverColor = !isFavorite
-        ? colors.secondaryContainer
-        : colors.onSurface;
+        ? colors.primaryFixed
+        : colors.onSurfaceVariant;
 
     final l10n = LocalizationService.instance.l10n;
     return Card(
@@ -61,6 +60,7 @@ class CryptoItemWidget extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: RichText(
+                    overflow: TextOverflow.ellipsis,
                     text: TextSpan(
                       children: [
                         TextSpan(
@@ -103,18 +103,23 @@ class CryptoItemWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  l10n.price(price),
-                  style: textStyle.headlineSmall?.copyWith(
-                    color: colors.onSurface,
-                    fontWeight: FontWeight.bold,
+                if (hasPrice)
+                  Text(
+                    l10n.price(
+                      Price.formatCurrency(currentPrice).replaceAll('.', ','),
+                    ),
+                    style: textStyle.headlineSmall?.copyWith(
+                      color: colors.onSurface,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
                 if (percentage != null)
                   Text(
                     '${isPositive ? '\u2191' : '\u2193'} ${l10n.valuePercentage(percentage.toString())}',
                     style: textStyle.bodyMedium?.copyWith(
-                      color: isPositive ? colors.primary : colors.secondary,
+                      color: isPositive
+                          ? colors.primary
+                          : colors.inversePrimary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

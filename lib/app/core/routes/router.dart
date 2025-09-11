@@ -1,7 +1,7 @@
 import 'package:brasilcripto/app/core/routes/routes.dart';
-import 'package:brasilcripto/app/presenter/view_models/crypto_view_model.dart';
-import 'package:brasilcripto/app/presenter/views/crypto_details_page.dart';
-import 'package:brasilcripto/app/presenter/views/cryptos_page.dart';
+import 'package:brasilcripto/app/presenter/view_models/cryptos_view_model.dart';
+import 'package:brasilcripto/app/presenter/views/main_navigation_shell.dart';
+import 'package:brasilcripto/app/presenter/views/pages/crypto_details_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -12,15 +12,15 @@ GoRouter routerConfig() {
       GoRoute(
         path: Routes.cryptos,
         builder: (context, state) {
-          final cryptosViewModel = context.read<CryptoViewModel>();
-          return CryptosPage(cryptosViewModel: cryptosViewModel);
+          final cryptosViewModel = context.read<CryptosViewModel>();
+          return MainCryptoTabs(cryptosViewModel: cryptosViewModel);
         },
         routes: [
           GoRoute(
             path: ":id",
             builder: (context, state) {
               final cryptoId = state.pathParameters["id"]!;
-              final cryptoViewModel = context.read<CryptoViewModel>();
+              final cryptoViewModel = context.read<CryptosViewModel>();
 
               final cryptos = cryptoViewModel.cryptos;
 

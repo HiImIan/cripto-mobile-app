@@ -15,7 +15,7 @@ void main() {
     });
 
     test('should fetch and map cryptos correctly', () async {
-      final result = await repository.get(1);
+      final result = await repository.get(page: 1);
       expect(result.asOk, isA<Ok>());
       final cryptos = result.asOk.value;
       expect(cryptos, isNotNull);

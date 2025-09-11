@@ -4,7 +4,7 @@ class Price {
     if (value >= 1e9) return '${(value / 1e9).toStringAsFixed(2)}B';
     if (value >= 1e6) return '${(value / 1e6).toStringAsFixed(2)}M';
     if (value >= 1e3) return '${(value / 1e3).toStringAsFixed(2)}K';
-    return value.toStringAsFixed(2);
+    return formatCurrency(value);
   }
 
   static String formatCurrency(double value) {

@@ -1,10 +1,8 @@
 import 'package:brasilcripto/app/core/l10n/l10n.dart';
-import 'package:brasilcripto/app/presenter/view_models/crypto_view_model.dart';
 import 'package:flutter/material.dart';
 
-class CryptoErrorListWidget extends StatelessWidget {
-  final CryptoViewModel cryptoViewModel;
-  const CryptoErrorListWidget({super.key, required this.cryptoViewModel});
+class CryptosErrorWidget extends StatelessWidget {
+  const CryptosErrorWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +19,6 @@ class CryptoErrorListWidget extends StatelessWidget {
             l10n.errorList,
             style: theme.textTheme.bodyLarge,
             textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: cryptoViewModel.refresh,
-            child: Text(
-              l10n.tryAgain,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
           ),
         ],
       ),

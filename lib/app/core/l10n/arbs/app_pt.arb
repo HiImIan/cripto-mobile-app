@@ -1,5 +1,8 @@
 {
-    "loading": "Carregando",
+    "loading": "Carregando criptomoedas",
+    "loadingFavorites": "Carregando seus favoritos",
+    "noFavoriteCryptos": "Você ainda não tem moedas favoritas",
+    "clickOnIconToFavorite": "Clique nesse ícone",
     "errorList": "Nenhuma criptomoeda encontrada",
     "tryAgain":"Tentar Novamente",
     "loadingMoreCryptos": "Carregar mais Criptos",

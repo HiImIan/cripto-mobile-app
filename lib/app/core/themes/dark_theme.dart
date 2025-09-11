@@ -10,6 +10,15 @@ class AppTheme {
       centerTitle: true,
       actionsIconTheme: IconThemeData(color: CustomColors.white),
     ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: CustomColors.background,
+      selectedItemColor: CustomColors.white,
+      unselectedItemColor: CustomColors.graySwatch.shade500,
+      elevation: 0,
+      showUnselectedLabels: false,
+      selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+    ),
     textTheme: TextTheme(
       titleLarge: TextStyle(color: CustomColors.white),
       titleMedium: TextStyle(color: CustomColors.white),
@@ -26,20 +35,21 @@ class AppTheme {
       ),
       labelSmall: TextStyle(color: CustomColors.white),
     ),
-    colorScheme:
-        ColorScheme.fromSeed(
-          seedColor: CustomColors.white,
-          brightness: Brightness.dark,
-        ).copyWith(
-          error: CustomColors.redSwatch,
-          secondary: CustomColors.redSwatch.shade400,
-          secondaryContainer: CustomColors.redSwatch.shade700,
-          tertiary: CustomColors.amber,
-          surface: CustomColors.background,
-          primary: CustomColors.green,
-          onSurface: CustomColors.white,
-          primaryContainer: CustomColors.cardBackground,
-          onPrimary: CustomColors.black,
-        ),
+    hintColor: CustomColors.graySwatch,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: CustomColors.graySwatch,
+      brightness: Brightness.dark,
+      surface: CustomColors.background,
+      onSurface: CustomColors.white,
+      onSurfaceVariant: CustomColors.graySwatch.shade300,
+      primary: CustomColors.green,
+      inversePrimary: CustomColors.redSwatch.shade400,
+      primaryFixed: CustomColors.redSwatch.shade700,
+      primaryContainer: CustomColors.cardBackground,
+      onPrimary: CustomColors.black,
+      error: CustomColors.redSwatch,
+      secondary: CustomColors.graySwatch.shade300,
+      tertiary: CustomColors.amber,
+    ),
   );
 }
