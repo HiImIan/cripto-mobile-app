@@ -13,6 +13,7 @@ class CryptoRepository {
     final params = {
       "vs_currency": "brl",
       "per_page": ids?.length ?? 50,
+      "ids": ids?.join(','),
       "page": page,
     };
 

@@ -22,8 +22,7 @@ class _MainCryptoTabsState extends State<MainCryptoTabs> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await cryptosViewModel.load();
-      cryptosViewModel.loadFavorites();
+      await cryptosViewModel.loadMore();
     });
   }
 

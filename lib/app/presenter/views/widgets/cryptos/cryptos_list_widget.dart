@@ -1,7 +1,9 @@
+import 'package:brasilcripto/app/core/routes/routes.dart';
 import 'package:brasilcripto/app/presenter/view_models/cryptos_view_model.dart';
 import 'package:brasilcripto/app/presenter/views/widgets/crypto_item_widget.dart';
 import 'package:brasilcripto/app/presenter/views/widgets/cryptos/exceptions/cryptos_load_more_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CryptosListWidget extends StatelessWidget {
   final CryptosViewModel cryptosViewModel;
@@ -15,26 +17,22 @@ class CryptosListWidget extends StatelessWidget {
       onRefresh: cryptosViewModel.refresh,
       child: ListView.separated(
         separatorBuilder: (context, index) => SizedBox(height: 4),
-        itemCount: length + ((cryptosViewModel.hasMoreItem) ? 1 : 0),
+        itemCount: length + ((cryptosViewModel.hasMoreItems) ? 1 : 0),
         itemBuilder: (context, index) {
+          print(index);
           if (index == length - 5) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              cryptosViewModel.load();
+              cryptosViewModel.loadMore();
             });
           }
 
-          if (index == length && cryptosViewModel.hasMoreItem) {
+          if (index == length && cryptosViewModel.hasMoreItems) {
             return const CryptosLoadMoreWidget();
           }
 
           final crypto = cryptos[index];
           return GestureDetector(
-            onTap: () {
-              cryptosViewModel.goToDetails(
-                context,
-                cryptos.indexOf(crypto).toString(),
-              );
-            },
+            onTap: () => context.push(Routes.cryptoDetails(crypto.id)),
             child: CryptosItemWidget(
               crypto: crypto,
               onFavoriteToggle: () {
