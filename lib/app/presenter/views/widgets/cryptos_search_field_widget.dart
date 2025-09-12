@@ -49,14 +49,18 @@ class CryptoSearchField extends StatelessWidget {
                     fillColor: colors.primaryContainer,
                     hintText: l10n.searchEngineLabel,
                     hintStyle: textStyle.bodyLarge,
-                    contentPadding: const EdgeInsets.only(left: 20),
+                    contentPadding: const EdgeInsets.only(left: 5),
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
-                    suffixIcon: IconButton(
-                      splashRadius: 10,
-                      onPressed: () {},
-                      icon: const Icon(Icons.search),
+                    prefixIcon: Icon(Icons.search),
+                    suffixIcon: Visibility(
+                      visible:
+                          cryptosViewModel.searchController.text.isNotEmpty,
+                      child: IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: cryptosViewModel.clearSearchResults,
+                      ),
                     ),
                   ),
                   onChanged: cryptosViewModel.searchByName,

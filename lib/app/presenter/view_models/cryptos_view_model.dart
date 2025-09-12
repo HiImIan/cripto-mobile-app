@@ -27,6 +27,7 @@ extension CryptoListExtensions on List<Crypto> {
 }
 
 class CryptosViewModel extends ChangeNotifier {
+  // Repositories
   final CryptoRepository _cryptoRepository;
   final FavoritesRepository _favoritesRepository;
 
@@ -50,9 +51,6 @@ class CryptosViewModel extends ChangeNotifier {
   bool get hasMoreItems => cryptos.isEmpty || _currentPage != -1;
   bool get hasSearchResults => _searchedCryptos.isNotEmpty;
   String? get error => _error;
-  int get favoritesCount => favoriteCryptos.length;
-  List<String> get favoriteIds => favoriteCryptos.map((c) => c.id).toList();
-
   CryptosViewModel({
     required CryptoRepository cryptoRepository,
     required FavoritesRepository favoritesRepository,
@@ -159,34 +157,11 @@ class CryptosViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Searches only favorites by name or symbol
-  List<Crypto> searchFavoritesByName(String query) {
-    if (query.isEmpty) return favoriteCryptos;
-    return _filterCryptosByQuery(favoriteCryptos, query);
-  }
-
   /// Clears search results and shows all cryptos
   void clearSearchResults() {
+    if (searchController.text.isNotEmpty) searchController.clear();
     _searchedCryptos.clear();
     notifyListeners();
-  }
-
-  //=======================================================
-  //---------------- State Queries -----------------------
-  //=======================================================
-
-  /// Checks if a crypto is in favorites
-  bool isCryptoFavorite(String cryptoId) {
-    final crypto = _findCrypto(cryptoId);
-    return crypto?.isFavorite ?? false;
-  }
-
-  /// Searches for a specific crypto by ID
-  Crypto? getCrypto(String cryptoId) => _findCrypto(cryptoId);
-
-  /// Searches for a specific favorite crypto
-  Crypto? getFavoriteCrypto(String cryptoId) {
-    return favoriteCryptos.where((c) => c.id == cryptoId).firstOrNull;
   }
 
   //=======================================================
@@ -406,29 +381,6 @@ class CryptosViewModel extends ChangeNotifier {
         )
         .toList();
   }
-
-  //=======================================================
-  //---------------- Utilities/Debug ---------------------
-  //=======================================================
-
-  /// Forces favorites status update (useful for debug)
-  Future<void> refreshFavoritesStatus() async {
-    final favoriteIds = await _favoritesRepository.getAllFavorites();
-    final favoriteIdsSet = Set<String>.from(favoriteIds);
-    _updateCryptosWithFavoriteStatus(favoriteIdsSet);
-    notifyListeners();
-  }
-
-  /// Debug information
-  String get debugInfo =>
-      '''
-  Total cryptos: ${_cryptos.length}
-  Filtered cryptos: ${_searchedCryptos.length}
-  Favorites: $favoritesCount
-  Current page: $_currentPage
-  Loading: $isLoading
-  Error: ${_error ?? 'None'}
-  ''';
 
   /// Sorts cryptos with favorites first
   void sortFavoritesFirst() {
