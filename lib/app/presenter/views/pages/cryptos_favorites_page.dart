@@ -18,7 +18,7 @@ class _CryptoScreenState extends State<CryptosFavoritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: Builder(
           builder: (_) {
             final isLoading = cryptosViewModel.isLoading;

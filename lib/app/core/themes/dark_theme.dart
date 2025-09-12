@@ -36,6 +36,13 @@ class AppTheme {
       ),
       labelSmall: TextStyle(color: CustomColors.white),
     ),
+    dialogTheme: DialogThemeData(
+      backgroundColor: CustomColors.cardBackground,
+
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+    ),
     hintColor: CustomColors.graySwatch,
     colorScheme: ColorScheme.fromSeed(
       seedColor: CustomColors.graySwatch,

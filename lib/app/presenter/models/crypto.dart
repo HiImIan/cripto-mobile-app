@@ -13,10 +13,10 @@ class Crypto {
     required this.id,
     required this.symbol,
     required this.name,
-    required this.image,
-    required this.currentPrice,
-    required this.percentageChange,
-    required this.totalVolume,
+    this.image,
+    this.currentPrice,
+    this.percentageChange,
+    this.totalVolume,
     this.isFavorite = false,
   });
 

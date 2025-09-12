@@ -193,6 +193,30 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'R\$ {price}'**
   String price(String price);
+
+  /// No description provided for @removeFavorite.
+  ///
+  /// In pt, this message translates to:
+  /// **'Remover dos Favoritos'**
+  String get removeFavorite;
+
+  /// Deseja remover '{name}' ({symbol}) dos favoritos?
+  ///
+  /// In pt, this message translates to:
+  /// **'Deseja remover \'{name}\' ({symbol}) dos favoritos?'**
+  String removeNameAndSymbol(String name, String symbol);
+
+  /// No description provided for @cancel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Cancelar'**
+  String get cancel;
+
+  /// No description provided for @remove.
+  ///
+  /// In pt, this message translates to:
+  /// **'Remove'**
+  String get remove;
 }
 
 class _AppLocalizationsDelegate

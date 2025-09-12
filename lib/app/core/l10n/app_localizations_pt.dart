@@ -59,4 +59,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String price(String price) {
     return 'R\$ $price';
   }
+
+  @override
+  String get removeFavorite => 'Remover dos Favoritos';
+
+  @override
+  String removeNameAndSymbol(String name, String symbol) {
+    return 'Deseja remover \'$name\' ($symbol) dos favoritos?';
+  }
+
+  @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get remove => 'Remove';
 }

@@ -1,6 +1,7 @@
 {
     "market": "Mercado",
     "favorites": "Favoritos",
+    
     "loading": "Carregando criptomoedas",
     "loadingFavorites": "Carregando seus favoritos",
     "searchEngineLabel": "Pesquisar por nome ou símbolo...",
@@ -30,5 +31,20 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "removeFavorite": "Remover dos Favoritos",
+    "removeNameAndSymbol": "Deseja remover '{name}' ({symbol}) dos favoritos?",
+     "@removeNameAndSymbol": {
+        "description": "Deseja remover '{name}' ({symbol}) dos favoritos?",
+        "placeholders":{
+            "name":{
+                "type": "String"
+            },
+            "symbol":{
+                "type": "String"
+            }
+        }
+    },
+    "cancel": "Cancelar",
+    "remove":"Remove"
 }

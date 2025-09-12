@@ -59,7 +59,7 @@ class CryptoSearchField extends StatelessWidget {
                           cryptosViewModel.searchController.text.isNotEmpty,
                       child: IconButton(
                         icon: Icon(Icons.close),
-                        onPressed: cryptosViewModel.clearSearchResults,
+                        onPressed: cryptosViewModel.refresh,
                       ),
                     ),
                   ),
