@@ -10,6 +10,7 @@ class AppTheme {
       centerTitle: true,
       actionsIconTheme: IconThemeData(color: CustomColors.white),
     ),
+
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       backgroundColor: CustomColors.background,

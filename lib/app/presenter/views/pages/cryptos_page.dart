@@ -4,22 +4,22 @@ import 'package:brasilcripto/app/presenter/views/widgets/cryptos/exceptions/cryp
 import 'package:brasilcripto/app/presenter/views/widgets/cryptos/exceptions/cryptos_load_widget.dart';
 import 'package:flutter/material.dart';
 
-class CryptosHomePage extends StatefulWidget {
+class CryptosPage extends StatefulWidget {
   final CryptosViewModel cryptosViewModel;
-  const CryptosHomePage({super.key, required this.cryptosViewModel});
+  const CryptosPage({super.key, required this.cryptosViewModel});
 
   @override
-  State<CryptosHomePage> createState() => _CryptoScreenState();
+  State<CryptosPage> createState() => _CryptoScreenState();
 }
 
-class _CryptoScreenState extends State<CryptosHomePage> {
+class _CryptoScreenState extends State<CryptosPage> {
   CryptosViewModel get cryptosViewModel => widget.cryptosViewModel;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+        padding: EdgeInsets.symmetric(horizontal: 8),
         child: Builder(
           builder: (_) {
             final hasError = cryptosViewModel.error != null;

@@ -1,10 +1,10 @@
 import 'package:brasilcripto/app/presenter/models/crypto.dart';
 import 'package:flutter/material.dart';
 
-class CryptoDetailPage extends StatelessWidget {
+class CryptosDetailsPage extends StatelessWidget {
   final Crypto crypto;
 
-  const CryptoDetailPage({super.key, required this.crypto});
+  const CryptosDetailsPage({super.key, required this.crypto});
 
   @override
   Widget build(BuildContext context) {

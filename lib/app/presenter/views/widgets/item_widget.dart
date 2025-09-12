@@ -28,7 +28,8 @@ class CryptosItemWidget extends StatelessWidget {
     final volume24h = crypto.totalVolume;
     final image = crypto.image;
     final isFavorite = crypto.isFavorite;
-
+    // icon
+    final favoriteIcon = isFavorite ? Icons.favorite : Icons.favorite_border;
     // colors
     final favoriteIconColor = isFavorite
         ? colors.primaryFixed
@@ -87,7 +88,7 @@ class CryptosItemWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 8),
                 IconButton(
-                  icon: Icon(Icons.favorite_border),
+                  icon: Icon(favoriteIcon),
                   color: favoriteIconColor,
                   padding: EdgeInsets.zero,
                   constraints: BoxConstraints(),

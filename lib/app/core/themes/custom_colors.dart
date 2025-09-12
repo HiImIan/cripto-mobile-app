@@ -31,7 +31,7 @@ abstract class CustomColors {
   static const Color green = Color(0xFF11CB56);
 
   // Secondary colors
-  static const Color amber = Color(0xFFA68F0A);
+  static const Color amber = Color(0xFFD3B60F);
 
   // Background colors
   static const Color cardBackground = Color(0xFF19213A);

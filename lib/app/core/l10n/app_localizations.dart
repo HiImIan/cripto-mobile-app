@@ -98,6 +98,18 @@ abstract class AppLocalizations {
     Locale('pt'),
   ];
 
+  /// No description provided for @market.
+  ///
+  /// In pt, this message translates to:
+  /// **'Mercado'**
+  String get market;
+
+  /// No description provided for @favorites.
+  ///
+  /// In pt, this message translates to:
+  /// **'Favoritos'**
+  String get favorites;
+
   /// No description provided for @loading.
   ///
   /// In pt, this message translates to:
@@ -109,6 +121,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Carregando seus favoritos'**
   String get loadingFavorites;
+
+  /// No description provided for @searchEngineLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Pesquisar por nome ou símbolo...'**
+  String get searchEngineLabel;
 
   /// No description provided for @noFavoriteCryptos.
   ///
@@ -143,7 +161,7 @@ abstract class AppLocalizations {
   /// No description provided for @brazilCrypto.
   ///
   /// In pt, this message translates to:
-  /// **'Brasil Crypto'**
+  /// **'Brasil Criptos'**
   String get brazilCrypto;
 
   /// No description provided for @actualPrice.

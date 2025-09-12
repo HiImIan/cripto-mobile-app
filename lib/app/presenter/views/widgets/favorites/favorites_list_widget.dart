@@ -1,7 +1,7 @@
 import 'package:brasilcripto/app/core/routes/routes.dart';
 import 'package:brasilcripto/app/presenter/view_models/cryptos_view_model.dart';
-import 'package:brasilcripto/app/presenter/views/widgets/crypto_item_widget.dart';
 import 'package:brasilcripto/app/presenter/views/widgets/favorites/exceptions/favorites_no_item_widget.dart';
+import 'package:brasilcripto/app/presenter/views/widgets/item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

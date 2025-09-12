@@ -1,7 +1,7 @@
 import 'package:brasilcripto/app/core/routes/routes.dart';
 import 'package:brasilcripto/app/presenter/view_models/cryptos_view_model.dart';
 import 'package:brasilcripto/app/presenter/views/main_navigation_shell.dart';
-import 'package:brasilcripto/app/presenter/views/pages/crypto_details_page.dart';
+import 'package:brasilcripto/app/presenter/views/pages/cryptos_details_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -24,9 +24,11 @@ GoRouter routerConfig() {
 
               final cryptos = cryptoViewModel.cryptos;
 
-              final crypto = cryptos[int.parse(cryptoId)];
+              final crypto = cryptos.firstWhere(
+                (crypto) => crypto.id == cryptoId,
+              );
 
-              return CryptoDetailPage(crypto: crypto);
+              return CryptosDetailsPage(crypto: crypto);
             },
           ),
         ],

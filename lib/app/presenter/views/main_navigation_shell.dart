@@ -1,8 +1,8 @@
 import 'package:brasilcripto/app/core/l10n/l10n.dart';
 import 'package:brasilcripto/app/presenter/view_models/cryptos_view_model.dart';
 import 'package:brasilcripto/app/presenter/views/pages/cryptos_favorites_page.dart';
-import 'package:brasilcripto/app/presenter/views/pages/cryptos_home_page.dart';
-import 'package:brasilcripto/app/presenter/views/widgets/crypto_bottom_navigation_widget.dart';
+import 'package:brasilcripto/app/presenter/views/pages/cryptos_page.dart';
+import 'package:brasilcripto/app/presenter/views/widgets/main_bottom_navigation_widget.dart';
 import 'package:flutter/material.dart';
 
 class MainCryptoTabs extends StatefulWidget {
@@ -53,10 +53,14 @@ class _MainCryptoTabsState extends State<MainCryptoTabs> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final textStyle = theme.textTheme;
     final l10n = LocalizationService.instance.l10n;
+
     return AnimatedBuilder(
       animation: cryptosViewModel,
-      builder: (_, child) {
+      builder: (_, __) {
+        final hasFavorites = cryptosViewModel.favoriteCryptos.isNotEmpty;
+        final hasItems = cryptosViewModel.cryptos.isNotEmpty;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: colors.primary,
@@ -67,25 +71,59 @@ class _MainCryptoTabsState extends State<MainCryptoTabs> {
                 splashRadius: 16,
                 onPressed: cryptosViewModel.refresh,
               ),
-              if (_requestCurrentPage == 1)
+              if (_requestCurrentPage == 1 && hasFavorites)
                 IconButton(
-                  icon: const Icon(Icons.delete),
+                  icon: const Icon(Icons.playlist_remove),
                   splashRadius: 16,
-                  onPressed: cryptosViewModel.deleteAllFavorites,
+                  onPressed: () {
+                    cryptosViewModel.deleteAllFavorites();
+                    _onTabTapped(0);
+                  },
                 ),
-            ],
-          ),
-          body: PageView(
-            controller: _pageController,
-            onPageChanged: _onPageChanged,
-            children: [
-              CryptosHomePage(cryptosViewModel: cryptosViewModel),
-              CryptosFavoritePage(cryptosViewModel: cryptosViewModel),
             ],
           ),
           bottomNavigationBar: CryptoBottomNavigationBar(
             currentIndex: _requestCurrentPage,
             onTap: _onTabTapped,
+          ),
+          body: Column(
+            children: [
+              if (hasItems)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: cryptosViewModel.searchController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: colors.primaryContainer,
+                      hintText: l10n.searchEngineLabel,
+                      hintStyle: textStyle.bodyLarge,
+                      contentPadding: EdgeInsets.only(left: 20),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                      suffixIcon: IconButton(
+                        splashRadius: 10,
+                        onPressed: () {},
+                        icon: Icon(Icons.search),
+                      ),
+                    ),
+                    onSubmitted: cryptosViewModel.search,
+                  ),
+                ),
+
+              // 🔹 Conteúdo principal (aba de cryptos/favoritos)
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: _onPageChanged,
+                  children: [
+                    CryptosPage(cryptosViewModel: cryptosViewModel),
+                    CryptosFavoritePage(cryptosViewModel: cryptosViewModel),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },

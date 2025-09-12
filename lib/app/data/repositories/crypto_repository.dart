@@ -8,12 +8,17 @@ class CryptoRepository {
 
   CryptoRepository({required HttpService http}) : _http = http;
 
-  Future<Result<List<Crypto>>> get({int? page, List<String>? ids}) async {
+  Future<Result<List<Crypto>>> get({
+    int? page,
+    List<String>? ids,
+    String? search,
+  }) async {
     final headers = {'x-cg-demo-api-key': 'CG-PfbR94AhHpC9ptTgk8SSX5fB'};
     final params = {
       "vs_currency": "brl",
       "per_page": ids?.length ?? 50,
-      "ids": ids?.join(','),
+      "ids": search ?? ids?.join(','),
+      "symbols": search,
       "page": page,
     };
 

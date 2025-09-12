@@ -9,10 +9,19 @@ class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
+  String get market => 'Mercado';
+
+  @override
+  String get favorites => 'Favoritos';
+
+  @override
   String get loading => 'Carregando criptomoedas';
 
   @override
   String get loadingFavorites => 'Carregando seus favoritos';
+
+  @override
+  String get searchEngineLabel => 'Pesquisar por nome ou símbolo...';
 
   @override
   String get noFavoriteCryptos => 'Você ainda não tem moedas favoritas';
@@ -30,7 +39,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get loadingMoreCryptos => 'Carregar mais Criptos';
 
   @override
-  String get brazilCrypto => 'Brasil Crypto';
+  String get brazilCrypto => 'Brasil Criptos';
 
   @override
   String get actualPrice => 'Preço atual';
