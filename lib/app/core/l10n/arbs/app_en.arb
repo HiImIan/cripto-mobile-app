@@ -1,1 +1,49 @@
-{}
+{
+    "market": "Market",
+    "favorites": "Favorites",
+    "loading": "Loading cryptocurrencies",
+    "loadingFavorites": "Loading your favorites",
+    "searchEngineLabel": "Search by name or symbol...",
+    "noFavoriteCryptos": "You don’t have any favorite coins yet",
+    "searchMore": "Browse more coins",
+    "clickOnIconToFavorite": "Tap this icon to favorite",
+    "errorList": "No cryptocurrencies found",
+    "tryAgain": "Try again",
+    "loadingMoreCryptos": "Loading more coins",
+    "brazilCrypto": "Brazil Crypto",
+    "actualPrice": "Current price",
+    "totalVolume": "Market volume",
+    "valuePercentage": "{percentage}%",
+    "@valuePercentage": {
+        "description": "{percentage}%",
+        "placeholders": {
+            "percentage": {
+                "type": "String"
+            }
+        }
+    },
+    "price": "R$ {price}",
+    "@price": {
+        "description": "R$ {price}",
+        "placeholders": {
+            "price": {
+                "type": "String"
+            }
+        }
+    },
+    "removeFavorite": "Remove from favorites",
+    "removeNameAndSymbol": "Do you want to remove '{name}' ({symbol}) from favorites?",
+    "@removeNameAndSymbol": {
+        "description": "Do you want to remove '{name}' ({symbol}) from favorites?",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "symbol": {
+                "type": "String"
+            }
+        }
+    },
+    "cancel": "Cancel",
+    "remove": "Remove"
+}

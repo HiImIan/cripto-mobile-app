@@ -21,13 +21,10 @@ class FavoritesListWidget extends StatelessWidget {
       itemCount: favoriteCryptos.length,
       itemBuilder: (context, index) {
         final favoriteCrypto = favoriteCryptos[index];
-        return GestureDetector(
-          // onTap: () => context.push(Routes.cryptoDetails(favoriteCrypto.id)),
-          child: CryptosItemWidget(
-            crypto: favoriteCrypto,
-            onFavoriteToggle: () =>
-                _handleFavoriteToggle(context, favoriteCrypto.id),
-          ),
+        return CryptosItemWidget(
+          crypto: favoriteCrypto,
+          onFavoriteToggle: () =>
+              _handleFavoriteToggle(context, favoriteCrypto.id),
         );
       },
     );

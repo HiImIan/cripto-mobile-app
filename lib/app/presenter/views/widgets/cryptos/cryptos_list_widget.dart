@@ -29,14 +29,11 @@ class CryptosListWidget extends StatelessWidget {
           }
 
           final crypto = cryptos[index];
-          return GestureDetector(
-            // onTap: () => context.push(Routes.cryptoDetails(crypto.id)),
-            child: CryptosItemWidget(
-              crypto: crypto,
-              onFavoriteToggle: () {
-                cryptosViewModel.toggleFavorite(crypto.id);
-              },
-            ),
+          return CryptosItemWidget(
+            crypto: crypto,
+            onFavoriteToggle: () {
+              cryptosViewModel.toggleFavorite(crypto.id);
+            },
           );
         },
       ),

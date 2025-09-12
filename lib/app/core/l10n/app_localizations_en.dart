@@ -9,46 +9,46 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get market => 'Mercado';
+  String get market => 'Market';
 
   @override
-  String get favorites => 'Favoritos';
+  String get favorites => 'Favorites';
 
   @override
-  String get loading => 'Carregando criptomoedas';
+  String get loading => 'Loading cryptocurrencies';
 
   @override
-  String get loadingFavorites => 'Carregando seus favoritos';
+  String get loadingFavorites => 'Loading your favorites';
 
   @override
-  String get searchEngineLabel => 'Pesquisar por nome ou símbolo...';
+  String get searchEngineLabel => 'Search by name or symbol...';
 
   @override
-  String get noFavoriteCryptos => 'Você ainda não tem moedas favoritas';
+  String get noFavoriteCryptos => 'You don’t have any favorite coins yet';
 
   @override
-  String get searchMore => 'Procurar mais moedas';
+  String get searchMore => 'Browse more coins';
 
   @override
-  String get clickOnIconToFavorite => 'Clique nesse ícone';
+  String get clickOnIconToFavorite => 'Tap this icon to favorite';
 
   @override
-  String get errorList => 'Nenhuma criptomoeda encontrada';
+  String get errorList => 'No cryptocurrencies found';
 
   @override
-  String get tryAgain => 'Tentar Novamente';
+  String get tryAgain => 'Try again';
 
   @override
-  String get loadingMoreCryptos => 'Carregar mais Criptos';
+  String get loadingMoreCryptos => 'Loading more coins';
 
   @override
-  String get brazilCrypto => 'Brasil Criptos';
+  String get brazilCrypto => 'Brazil Crypto';
 
   @override
-  String get actualPrice => 'Preço atual';
+  String get actualPrice => 'Current price';
 
   @override
-  String get totalVolume => 'Volume no mercado';
+  String get totalVolume => 'Market volume';
 
   @override
   String valuePercentage(String percentage) {
@@ -61,16 +61,19 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get removeFavorite => 'Remover dos Favoritos';
+  String get removeFavorite => 'Remove from favorites';
 
   @override
   String removeNameAndSymbol(String name, String symbol) {
-    return 'Deseja remover \'$name\' ($symbol) dos favoritos?';
+    return 'Do you want to remove \'$name\' ($symbol) from favorites?';
   }
 
   @override
-  String get cancel => 'Cancelar';
+  String get cancel => 'Cancel';
 
   @override
   String get remove => 'Remove';
+
+  @override
+  String get details => 'Ver detalhes';
 }

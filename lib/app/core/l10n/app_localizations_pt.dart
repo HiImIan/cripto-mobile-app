@@ -27,7 +27,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get noFavoriteCryptos => 'Você ainda não tem moedas favoritas';
 
   @override
-  String get searchMore => 'Procurar mais moedas';
+  String get searchMore => 'Procurar mais resultados';
 
   @override
   String get clickOnIconToFavorite => 'Clique nesse ícone';
@@ -73,4 +73,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get remove => 'Remove';
+
+  @override
+  String get details => 'Ver detalhes';
 }

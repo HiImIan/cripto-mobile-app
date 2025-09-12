@@ -39,25 +39,30 @@ class CryptosViewModel extends ChangeNotifier {
   String? _error;
 
   final TextEditingController searchController;
+  bool get hasSearchValue => searchController.text.isNotEmpty;
 
   // Public getters
-  List<Crypto> get cryptos => _searchedCryptos.isNotEmpty
+  List<Crypto> get cryptos => hasSearchValue
       ? List.unmodifiable(_searchedCryptos)
       : List.unmodifiable(_cryptos);
   List<Crypto> get favoriteCryptos {
     final Map<String, Crypto> uniqueFavorites = {};
     for (final crypto in _cryptos) {
-      if (crypto.isFavorite) uniqueFavorites[crypto.id] = crypto;
+      if (crypto.isFavorite) {
+        uniqueFavorites[crypto.id] = crypto;
+      }
     }
     for (final crypto in _searchedCryptos) {
-      if (crypto.isFavorite) uniqueFavorites[crypto.id] = crypto;
+      if (crypto.isFavorite) {
+        uniqueFavorites[crypto.id] = crypto;
+      }
     }
     return uniqueFavorites.values.toSet().toList();
   }
 
   bool get isLoading => _isLoading;
   bool get hasMoreItems => cryptos.isEmpty || _currentPage != -1;
-  bool get hasSearchResults => _searchedCryptos.isNotEmpty;
+  bool get hasSearchResults => _searchedCryptos.isNotEmpty || hasSearchValue;
   String? get error => _error;
 
   CryptosViewModel({
@@ -96,17 +101,12 @@ class CryptosViewModel extends ChangeNotifier {
   Future<void> toggleFavorite(String cryptoId) async {
     final index = _findCryptoIndex(cryptoId);
     if (index == -1) return;
-
-    final currentCrypto = cryptos[index];
     final isCurrentlyFavorite = await _favoritesRepository.isFavorite(cryptoId);
 
-    if (isCurrentlyFavorite) {
-      await _removeFavorite(cryptoId, index, currentCrypto);
-    } else {
-      await _addFavorite(cryptoId, index, currentCrypto);
-    }
-
-    _updateFilteredCryptoFavoriteStatus(cryptoId, !isCurrentlyFavorite);
+    await _updateIsFavoriteValue(
+      cryptoId: cryptoId,
+      isFavorite: !isCurrentlyFavorite,
+    );
     notifyListeners();
   }
 
@@ -159,7 +159,8 @@ class CryptosViewModel extends ChangeNotifier {
       return;
     }
     _searchedCryptos.clear();
-    _searchedCryptos.addAll(_filterCryptosByQuery(_cryptos, query));
+    final iguais = _filterCryptosByQuery(_cryptos, query);
+    _searchedCryptos.addAll(iguais);
     notifyListeners();
   }
 
@@ -269,26 +270,30 @@ class CryptosViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> _addFavorite(String cryptoId, int index, Crypto crypto) async {
-    await _favoritesRepository.addToFavorites(cryptoId);
-    if (hasSearchResults) {
-      _searchedCryptos[index] = crypto.copyWith(isFavorite: true);
-      return;
+  Future<void> _updateIsFavoriteValue({
+    required String cryptoId,
+    required bool isFavorite,
+  }) async {
+    if (isFavorite) {
+      await _favoritesRepository.addToFavorites(cryptoId);
+    } else {
+      await _favoritesRepository.removeFromFavorites(cryptoId);
     }
-    _cryptos[index] = crypto.copyWith(isFavorite: true);
-  }
 
-  Future<void> _removeFavorite(
-    String cryptoId,
-    int index,
-    Crypto crypto,
-  ) async {
-    await _favoritesRepository.removeFromFavorites(cryptoId);
-    if (hasSearchResults) {
-      _searchedCryptos[index] = crypto.copyWith(isFavorite: false);
-      return;
+    // update _cryptos
+    final cryptosIndex = _cryptos.indexWhere((c) => c.id == cryptoId);
+    if (cryptosIndex != -1) {
+      _cryptos[cryptosIndex] = _cryptos[cryptosIndex].copyWith(
+        isFavorite: isFavorite,
+      );
     }
-    _cryptos[index] = crypto.copyWith(isFavorite: false);
+
+    // update _searchedCryptos
+    final searchedIndex = _searchedCryptos.indexWhere((c) => c.id == cryptoId);
+    if (searchedIndex != -1) {
+      _searchedCryptos[searchedIndex] = _searchedCryptos[searchedIndex]
+          .copyWith(isFavorite: isFavorite);
+    }
   }
 
   void _updateAllCryptosAsFavorite(bool isFavorite) {
@@ -306,16 +311,6 @@ class CryptosViewModel extends ChangeNotifier {
           isFavorite: isFavorite,
         );
       }
-    }
-  }
-
-  void _updateFilteredCryptoFavoriteStatus(String cryptoId, bool isFavorite) {
-    final filteredIndex = _searchedCryptos.indexWhere(
-      (crypto) => crypto.id == cryptoId,
-    );
-    if (filteredIndex != -1) {
-      _searchedCryptos[filteredIndex] = _searchedCryptos[filteredIndex]
-          .copyWith(isFavorite: isFavorite);
     }
   }
 

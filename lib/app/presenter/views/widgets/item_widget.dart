@@ -1,8 +1,10 @@
 import 'package:brasilcripto/app/core/assets/app_images.dart';
 import 'package:brasilcripto/app/core/l10n/l10n.dart';
+import 'package:brasilcripto/app/core/routes/routes.dart';
 import 'package:brasilcripto/app/presenter/models/crypto.dart';
 import 'package:brasilcripto/app/presenter/models/helpers/price_convertors.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CryptosItemWidget extends StatelessWidget {
   final Crypto crypto;
@@ -44,7 +46,7 @@ class CryptosItemWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       elevation: 1,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(top: 16, bottom: 4, left: 16, right: 16),
         child: Column(
           children: [
             // Icon, symbol, name and favorite
@@ -126,8 +128,7 @@ class CryptosItemWidget extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 8),
-            // Volume
+            // Volume and details
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -138,6 +139,17 @@ class CryptosItemWidget extends StatelessWidget {
                       color: colors.onSurface,
                     ),
                   ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.all(0),
+
+                    fixedSize: Size(MediaQuery.sizeOf(context).width * 0.2, 25),
+                  ),
+                  onPressed: () {
+                    context.push(Routes.cryptoDetails(crypto.id));
+                  },
+                  child: Text(l10n.details),
+                ),
               ],
             ),
           ],

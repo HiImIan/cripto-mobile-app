@@ -1,12 +1,11 @@
 {
     "market": "Mercado",
     "favorites": "Favoritos",
-    
     "loading": "Carregando criptomoedas",
     "loadingFavorites": "Carregando seus favoritos",
     "searchEngineLabel": "Pesquisar por nome ou símbolo...",
     "noFavoriteCryptos": "Você ainda não tem moedas favoritas",
-    "searchMore": "Procurar mais moedas",
+    "searchMore": "Procurar mais resultados",
     "clickOnIconToFavorite": "Clique nesse ícone",
     "errorList": "Nenhuma criptomoeda encontrada",
     "tryAgain":"Tentar Novamente",
@@ -46,5 +45,6 @@
         }
     },
     "cancel": "Cancelar",
-    "remove":"Remove"
+    "remove":"Remove",
+    "details": "Ver detalhes"
 }

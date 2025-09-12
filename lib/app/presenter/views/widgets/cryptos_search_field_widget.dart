@@ -13,7 +13,9 @@ class CryptoSearchField extends StatelessWidget {
   });
 
   bool get _shouldShowSearchField =>
-      cryptosViewModel.cryptos.isNotEmpty && showSearchField;
+      (cryptosViewModel.cryptos.isNotEmpty ||
+          cryptosViewModel.hasSearchResults) &&
+      showSearchField;
 
   final defaultDuration = const Duration(milliseconds: 300);
   @override

@@ -137,7 +137,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchMore.
   ///
   /// In pt, this message translates to:
-  /// **'Procurar mais moedas'**
+  /// **'Procurar mais resultados'**
   String get searchMore;
 
   /// No description provided for @clickOnIconToFavorite.
@@ -217,6 +217,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Remove'**
   String get remove;
+
+  /// No description provided for @details.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ver detalhes'**
+  String get details;
 }
 
 class _AppLocalizationsDelegate
