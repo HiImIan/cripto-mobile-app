@@ -98,26 +98,31 @@ class CryptosViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  //=======================================================
+  //====================================================
   //---------------- Search methods --------------------
-  //=======================================================
+  //====================================================
 
   /// Cryptos search for name or symbol
-  void search(String query) {
+  Future<void> search(String query) async {
     if (query.isEmpty) return;
-    final filteredCryptos = _filterActualCryptos(_cryptos, query);
-    if (filteredCryptos.isEmpty) loadMore();
-    _filteredCryptos;
-  }
+    clearSearchResult();
 
-  void clearSearchResult() {
-    _filteredCryptos.clear();
+    final filteredCryptos = _filterActualCryptos(_cryptos, query);
+    _filteredCryptos.addAll(filteredCryptos);
+
+    final searchRequestCryptos = await _fetchSearchCryptos();
+    _filteredCryptos.addAll(searchRequestCryptos);
     notifyListeners();
   }
 
-  //=======================================================
+  void clearSearchResult() {
+    notifyListeners();
+    _filteredCryptos.clear();
+  }
+
+  //======================================================
   //---------------- Consultas de Estado -----------------
-  //=======================================================
+  //======================================================
 
   /// Check if a Crypto is in the favorites
   bool isCryptoFavorite(String cryptoId) {
@@ -166,6 +171,16 @@ class CryptosViewModel extends ChangeNotifier {
   Future<List<Crypto>> _fetchNewCryptos() async {
     _currentPageToRequest += 1;
     final result = await _cryptoRepository.get(page: _currentPageToRequest);
+
+    return result.fold((error) {
+      _error = error.message;
+      return <Crypto>[];
+    }, (cryptos) => cryptos);
+  }
+
+  /// Fetches search cryptos from API
+  Future<List<Crypto>> _fetchSearchCryptos() async {
+    final result = await _cryptoRepository.get(search: searchController.text);
 
     return result.fold((error) {
       _error = error.message;
