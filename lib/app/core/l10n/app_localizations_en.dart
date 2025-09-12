@@ -27,6 +27,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noFavoriteCryptos => 'Você ainda não tem moedas favoritas';
 
   @override
+  String get searchMore => 'Procurar mais moedas';
+
+  @override
   String get clickOnIconToFavorite => 'Clique nesse ícone';
 
   @override

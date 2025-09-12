@@ -24,8 +24,9 @@ class _CryptoScreenState extends State<CryptosPage> {
           builder: (_) {
             final hasError = cryptosViewModel.error != null;
             final isLoading = cryptosViewModel.isLoading;
-
-            if (isLoading && cryptosViewModel.cryptos.isEmpty) {
+            final hasSearchResults = cryptosViewModel.hasSearchResults;
+            if (isLoading &&
+                (cryptosViewModel.cryptos.isEmpty || hasSearchResults)) {
               return CryptosLoadWidget();
             }
 

@@ -3,7 +3,7 @@ import 'package:brasilcripto/app/data/repositories/favorites_respository.dart';
 import 'package:brasilcripto/app/presenter/models/crypto.dart';
 import 'package:flutter/material.dart';
 
-// Extensão para remover duplicatas por ID
+// Extension to remove duplicates by ID
 extension CryptoListExtensions on List<Crypto> {
   List<Crypto> get uniqueById {
     Map<String, Crypto> uniqueMap = {};
@@ -30,25 +30,28 @@ class CryptosViewModel extends ChangeNotifier {
   final CryptoRepository _cryptoRepository;
   final FavoritesRepository _favoritesRepository;
 
-  bool get isLoading => _isLoading;
+  // Internal state
+  final List<Crypto> _cryptos = [];
+  final List<Crypto> _searchedCryptos = [];
+  int _currentPage = 0;
   bool _isLoading = false;
-  String? get error => _error;
   String? _error;
 
   final TextEditingController searchController;
 
-  int _currentPageToRequest = 0;
-
-  List<Crypto> get cryptos =>
-      hasFilters ? _filteredCryptos : List.unmodifiable(_cryptos);
-  final List<Crypto> _cryptos = [];
-  bool get hasFilters => _filteredCryptos.isNotEmpty;
-  final List<Crypto> _filteredCryptos = [];
-
+  // Public getters
+  List<Crypto> get cryptos => _searchedCryptos.isNotEmpty
+      ? List.unmodifiable(_searchedCryptos)
+      : List.unmodifiable(_cryptos);
   List<Crypto> get favoriteCryptos =>
-      _cryptos.where((crypto) => crypto.isFavorite).toList();
+      cryptos.where((crypto) => crypto.isFavorite).toList();
 
-  bool get hasMoreItems => _cryptos.isEmpty || _currentPageToRequest != -1;
+  bool get isLoading => _isLoading;
+  bool get hasMoreItems => cryptos.isEmpty || _currentPage != -1;
+  bool get hasSearchResults => _searchedCryptos.isNotEmpty;
+  String? get error => _error;
+  int get favoritesCount => favoriteCryptos.length;
+  List<String> get favoriteIds => favoriteCryptos.map((c) => c.id).toList();
 
   CryptosViewModel({
     required CryptoRepository cryptoRepository,
@@ -57,29 +60,29 @@ class CryptosViewModel extends ChangeNotifier {
        _favoritesRepository = favoritesRepository,
        searchController = TextEditingController();
 
-  //================================================
-  //---------------- Main methods ------------------
-  //================================================
+  //=======================================================
+  //---------------- Main Methods -------------------------
+  //=======================================================
 
-  /// Carries more Cryptos
+  /// Loads more cryptos (pagination)
   Future<void> loadMore() async {
     if (_shouldSkipLoad()) return;
 
     await _performLoad();
   }
 
-  /// Updates the full list
+  /// Updates the complete list (refresh)
   Future<void> refresh() async {
     _resetState();
     await _performLoad();
   }
 
-  /// Alternates a Crypto's favorite status
+  /// Toggles favorite status of a crypto
   Future<void> toggleFavorite(String cryptoId) async {
     final index = _findCryptoIndex(cryptoId);
     if (index == -1) return;
 
-    final currentCrypto = _cryptos[index];
+    final currentCrypto = cryptos[index];
     final isCurrentlyFavorite = await _favoritesRepository.isFavorite(cryptoId);
 
     if (isCurrentlyFavorite) {
@@ -88,6 +91,9 @@ class CryptosViewModel extends ChangeNotifier {
       await _addFavorite(cryptoId, index, currentCrypto);
     }
 
+    // Also update in filtered list if it exists
+    _updateFilteredCryptoFavoriteStatus(cryptoId, !isCurrentlyFavorite);
+
     notifyListeners();
   }
 
@@ -95,45 +101,90 @@ class CryptosViewModel extends ChangeNotifier {
   Future<void> deleteAllFavorites() async {
     await _favoritesRepository.clearAllFavorites();
     _updateAllCryptosAsFavorite(false);
+
+    // Also update filtered list
+    _updateAllFilteredCryptosAsFavorite(false);
+
     notifyListeners();
   }
 
-  //====================================================
-  //---------------- Search methods --------------------
-  //====================================================
+  //=======================================================
+  //---------------- Search Methods ----------------------
+  //=======================================================
 
-  /// Cryptos search for name or symbol
-  Future<void> search(String query) async {
-    if (query.isEmpty) return;
-    clearSearchResult();
+  /// Searches cryptos from API by name/ID or symbol
+  Future<void> searchCryptos() async {
+    final query = searchController.text;
+    if (query.isEmpty) {
+      clearSearchResults();
+      return;
+    }
 
-    final filteredCryptos = _filterActualCryptos(_cryptos, query);
-    _filteredCryptos.addAll(filteredCryptos);
+    if (_isLoading) return;
 
-    final searchRequestCryptos = await _fetchSearchCryptos();
-    _filteredCryptos.addAll(searchRequestCryptos);
+    _setLoadingState(true);
+
+    // First, search locally
+    final localResults = _filterCryptosByQuery(_cryptos, query);
+    _searchedCryptos.clear();
+    _searchedCryptos.addAll(localResults);
+
+    // Then search from API
+    final search = await _cryptoRepository.search(query);
+    late final List<String> searchedCryptosId;
+    search.fold((error) => _error = error.message, (searchedCryptos) async {
+      // Extrai apenas os IDs dos resultados da API
+      searchedCryptosId = searchedCryptos.map((c) => c.id).toList();
+    });
+
+    final result = await _cryptoRepository.get(ids: searchedCryptosId);
+
+    result.fold((error) => _error = error.message, (cryptos) {
+      _searchedCryptos.addAllUniqueById(cryptos);
+
+      // Sync favorites status for search results
+    });
+    await _syncSearchResultsFavorites();
+    _setLoadingState(false);
+  }
+
+  /// Searches cryptos locally by name or symbol
+  void searchByName(String query) {
+    if (query.isEmpty) {
+      refresh();
+      return;
+    }
+    _searchedCryptos.clear();
+    _searchedCryptos.addAll(_filterCryptosByQuery(_cryptos, query));
     notifyListeners();
   }
 
-  void clearSearchResult() {
-    notifyListeners();
-    _filteredCryptos.clear();
+  /// Searches only favorites by name or symbol
+  List<Crypto> searchFavoritesByName(String query) {
+    if (query.isEmpty) return favoriteCryptos;
+    return _filterCryptosByQuery(favoriteCryptos, query);
   }
 
-  //======================================================
-  //---------------- Consultas de Estado -----------------
-  //======================================================
+  /// Clears search results and shows all cryptos
+  void clearSearchResults() {
+    _searchedCryptos.clear();
+    notifyListeners();
+  }
 
-  /// Check if a Crypto is in the favorites
+  //=======================================================
+  //---------------- State Queries -----------------------
+  //=======================================================
+
+  /// Checks if a crypto is in favorites
   bool isCryptoFavorite(String cryptoId) {
     final crypto = _findCrypto(cryptoId);
     return crypto?.isFavorite ?? false;
   }
 
-  /// Search a specific Crypto by ID
+  /// Searches for a specific crypto by ID
   Crypto? getCrypto(String cryptoId) => _findCrypto(cryptoId);
 
-  /// Search a specific favorite crypto
+  /// Searches for a specific favorite crypto
   Crypto? getFavoriteCrypto(String cryptoId) {
     return favoriteCryptos.where((c) => c.id == cryptoId).firstOrNull;
   }
@@ -143,12 +194,13 @@ class CryptosViewModel extends ChangeNotifier {
   //=======================================================
 
   /// Checks if loading should be skipped
-  bool _shouldSkipLoad() => _isLoading || _currentPageToRequest == -1;
+  bool _shouldSkipLoad() => _isLoading || _currentPage == -1;
 
   /// Resets state for refresh
   void _resetState() {
-    _currentPageToRequest = 0;
+    _currentPage = 0;
     _cryptos.clear();
+    _searchedCryptos.clear();
     _error = null;
   }
 
@@ -156,31 +208,25 @@ class CryptosViewModel extends ChangeNotifier {
   Future<void> _performLoad() async {
     _setLoadingState(true);
 
-    final newCryptos = await _fetchNewCryptos();
-    if (newCryptos.isEmpty) {
-      _currentPageToRequest = -1;
-      return;
+    try {
+      final newCryptos = await _fetchNewCryptos();
+      if (newCryptos.isEmpty) {
+        _currentPage = -1;
+        return;
+      }
+
+      await _processAndUpdateCryptos(newCryptos);
+    } catch (e) {
+      _error = 'Unexpected error: $e';
+    } finally {
+      _setLoadingState(false);
     }
-
-    await _processAndUpdateCryptos(newCryptos);
-
-    _setLoadingState(false);
   }
 
   /// Fetches new cryptos from API
   Future<List<Crypto>> _fetchNewCryptos() async {
-    _currentPageToRequest += 1;
-    final result = await _cryptoRepository.get(page: _currentPageToRequest);
-
-    return result.fold((error) {
-      _error = error.message;
-      return <Crypto>[];
-    }, (cryptos) => cryptos);
-  }
-
-  /// Fetches search cryptos from API
-  Future<List<Crypto>> _fetchSearchCryptos() async {
-    final result = await _cryptoRepository.get(search: searchController.text);
+    _currentPage += 1;
+    final result = await _cryptoRepository.get(page: _currentPage);
 
     return result.fold((error) {
       _error = error.message;
@@ -233,6 +279,9 @@ class CryptosViewModel extends ChangeNotifier {
       final isFavorite = favoriteIds.contains(_cryptos[i].id);
       _cryptos[i] = _cryptos[i].copyWith(isFavorite: isFavorite);
     }
+
+    // Also sync the filtered list if it has items
+    _syncFilteredCryptosWithMainList();
   }
 
   /// Removes duplicates from main list
@@ -251,13 +300,13 @@ class CryptosViewModel extends ChangeNotifier {
 
   /// Finds crypto index in the list
   int _findCryptoIndex(String cryptoId) {
-    return _cryptos.indexWhere((crypto) => crypto.id == cryptoId);
+    return cryptos.indexWhere((crypto) => crypto.id == cryptoId);
   }
 
   /// Finds crypto by ID
   Crypto? _findCrypto(String cryptoId) {
     try {
-      return _cryptos.firstWhere((c) => c.id == cryptoId);
+      return cryptos.firstWhere((c) => c.id == cryptoId);
     } catch (e) {
       return null;
     }
@@ -266,6 +315,10 @@ class CryptosViewModel extends ChangeNotifier {
   /// Adds crypto to favorites
   Future<void> _addFavorite(String cryptoId, int index, Crypto crypto) async {
     await _favoritesRepository.addToFavorites(cryptoId);
+    if (hasSearchResults) {
+      _searchedCryptos[index] = crypto.copyWith(isFavorite: true);
+      return;
+    }
     _cryptos[index] = crypto.copyWith(isFavorite: true);
   }
 
@@ -276,6 +329,10 @@ class CryptosViewModel extends ChangeNotifier {
     Crypto crypto,
   ) async {
     await _favoritesRepository.removeFromFavorites(cryptoId);
+    if (hasSearchResults) {
+      _searchedCryptos[index] = crypto.copyWith(isFavorite: false);
+      return;
+    }
     _cryptos[index] = crypto.copyWith(isFavorite: false);
   }
 
@@ -288,29 +345,108 @@ class CryptosViewModel extends ChangeNotifier {
     }
   }
 
+  /// Updates all filtered cryptos with a favorite status
+  void _updateAllFilteredCryptosAsFavorite(bool isFavorite) {
+    for (int i = 0; i < _searchedCryptos.length; i++) {
+      if (_searchedCryptos[i].isFavorite != isFavorite) {
+        _searchedCryptos[i] = _searchedCryptos[i].copyWith(
+          isFavorite: isFavorite,
+        );
+      }
+    }
+  }
+
+  /// Updates favorite status of a specific crypto in filtered list
+  void _updateFilteredCryptoFavoriteStatus(String cryptoId, bool isFavorite) {
+    final filteredIndex = _searchedCryptos.indexWhere(
+      (crypto) => crypto.id == cryptoId,
+    );
+    if (filteredIndex != -1) {
+      _searchedCryptos[filteredIndex] = _searchedCryptos[filteredIndex]
+          .copyWith(isFavorite: isFavorite);
+    }
+  }
+
+  /// Syncs favorites status for search results
+  Future<void> _syncSearchResultsFavorites() async {
+    final favoriteIds = await _favoritesRepository.getAllFavorites();
+    final favoriteIdsSet = Set<String>.from(favoriteIds);
+
+    for (int i = 0; i < _searchedCryptos.length; i++) {
+      final isFavorite = favoriteIdsSet.contains(_searchedCryptos[i].id);
+      _searchedCryptos[i] = _searchedCryptos[i].copyWith(
+        isFavorite: isFavorite,
+      );
+    }
+  }
+
+  /// Syncs favorite status between main and filtered lists
+  void _syncFilteredCryptosWithMainList() {
+    if (_searchedCryptos.isEmpty) return;
+
+    for (int i = 0; i < _searchedCryptos.length; i++) {
+      final mainCrypto = _findCrypto(_searchedCryptos[i].id);
+      if (mainCrypto != null &&
+          mainCrypto.isFavorite != _searchedCryptos[i].isFavorite) {
+        _searchedCryptos[i] = _searchedCryptos[i].copyWith(
+          isFavorite: mainCrypto.isFavorite,
+        );
+      }
+    }
+  }
+
   /// Filters cryptos by search query
-  List<Crypto> _filterActualCryptos(List<Crypto> cryptos, String query) {
+  List<Crypto> _filterCryptosByQuery(List<Crypto> cryptoList, String query) {
     final lowerQuery = query.toLowerCase();
-    return cryptos
+    return cryptoList
         .where(
           (crypto) =>
-              //
-              crypto.id.toLowerCase().contains(lowerQuery) ||
+              crypto.name.toLowerCase().contains(lowerQuery) ||
               crypto.symbol.toLowerCase().contains(lowerQuery),
         )
         .toList();
   }
 
-  //=========================================
-  //---------------- Filters ----------------
-  //=========================================
+  //=======================================================
+  //---------------- Utilities/Debug ---------------------
+  //=======================================================
 
+  /// Forces favorites status update (useful for debug)
+  Future<void> refreshFavoritesStatus() async {
+    final favoriteIds = await _favoritesRepository.getAllFavorites();
+    final favoriteIdsSet = Set<String>.from(favoriteIds);
+    _updateCryptosWithFavoriteStatus(favoriteIdsSet);
+    notifyListeners();
+  }
+
+  /// Debug information
+  String get debugInfo =>
+      '''
+  Total cryptos: ${_cryptos.length}
+  Filtered cryptos: ${_searchedCryptos.length}
+  Favorites: $favoritesCount
+  Current page: $_currentPage
+  Loading: $isLoading
+  Error: ${_error ?? 'None'}
+  ''';
+
+  /// Sorts cryptos with favorites first
   void sortFavoritesFirst() {
     _cryptos.sort((a, b) {
       if (a.isFavorite && !b.isFavorite) return -1;
       if (!a.isFavorite && b.isFavorite) return 1;
       return 0;
     });
+
+    // Also sort filtered list if it has items
+    if (_searchedCryptos.isNotEmpty) {
+      _searchedCryptos.sort((a, b) {
+        if (a.isFavorite && !b.isFavorite) return -1;
+        if (!a.isFavorite && b.isFavorite) return 1;
+        return 0;
+      });
+    }
+
     notifyListeners();
   }
 }

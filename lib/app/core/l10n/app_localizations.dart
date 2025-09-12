@@ -134,6 +134,12 @@ abstract class AppLocalizations {
   /// **'Você ainda não tem moedas favoritas'**
   String get noFavoriteCryptos;
 
+  /// No description provided for @searchMore.
+  ///
+  /// In pt, this message translates to:
+  /// **'Procurar mais moedas'**
+  String get searchMore;
+
   /// No description provided for @clickOnIconToFavorite.
   ///
   /// In pt, this message translates to:
