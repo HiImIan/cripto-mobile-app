@@ -15,7 +15,6 @@ App Flutter para acompanhar criptomoedas em tempo real usando a API CoinGecko.
 - 📊 **Detalhes Completos** - Preço, volume, gráficos e descrição
 - 📈 **Dados em Tempo Real** - Integração com CoinGecko API
 - 🇧🇷 **Valores em Reais** - Preços convertidos para BRL
-- 🌙 **Tema Escuro/Claro** - Interface adaptável
 
 ## 🛠️ Tecnologias
 
