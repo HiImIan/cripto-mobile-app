@@ -65,8 +65,6 @@ flutter build apk --release
 
 **CoinGecko API** - Dados gratuitos e confiáveis
 - Preços em tempo real
-- Histórico de 7 dias
-- Volume e market cap
 - Informações detalhadas
 
 ## 🤝 Contribuindo
