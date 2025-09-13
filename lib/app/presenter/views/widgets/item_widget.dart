@@ -130,7 +130,7 @@ class CryptosItemWidget extends StatelessWidget {
                 if (volume24h != null)
                   Text(
                     '${l10n.totalVolume} ${Price.formatAbbr(volume24h)}',
-                    style: textStyle.bodyMedium?.copyWith(
+                    style: textStyle.bodySmall?.copyWith(
                       color: colors.onSurface,
                     ),
                   ),
