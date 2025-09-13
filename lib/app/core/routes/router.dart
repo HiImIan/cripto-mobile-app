@@ -20,15 +20,16 @@ GoRouter routerConfig() {
             path: ":id",
             builder: (context, state) {
               final cryptoId = state.pathParameters["id"]!;
-              final cryptoViewModel = context.read<CryptosViewModel>();
+              final cryptosViewModel = context.read<CryptosViewModel>();
 
-              final cryptos = cryptoViewModel.cryptos;
+              final cryptos = cryptosViewModel.cryptos;
 
               final crypto = cryptos.firstWhere(
                 (crypto) => crypto.id == cryptoId,
               );
 
-              return CryptosDetailsPage(crypto: crypto);
+              cryptosViewModel.setCurrentCrypto(crypto);
+              return CryptosDetailsPage(cryptosViewModel: cryptosViewModel);
             },
           ),
         ],

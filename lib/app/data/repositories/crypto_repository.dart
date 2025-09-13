@@ -1,7 +1,9 @@
 import 'package:brasilcripto/app/core/services/http/http_service.dart';
 import 'package:brasilcripto/app/core/services/result/result.dart';
+import 'package:brasilcripto/app/data/mappers/crypto_details_mapper.dart';
 import 'package:brasilcripto/app/data/mappers/crypto_mapper.dart';
 import 'package:brasilcripto/app/presenter/models/crypto.dart';
+import 'package:brasilcripto/app/presenter/models/crypto/crypto_details.dart';
 
 class CryptoRepository {
   final HttpService _http;
@@ -45,6 +47,27 @@ class CryptoRepository {
     return result.map((response) {
       final cryptos = response.body['coins'];
       return CryptoMapper.toMapList(List.from(cryptos));
+    });
+  }
+
+  Future<Result<CryptoDetails>> getDetails(String id) async {
+    final headers = {'x-cg-demo-api-key': 'CG-PfbR94AhHpC9ptTgk8SSX5fB'};
+
+    final params = <String, dynamic>{
+      'localization': 'false',
+      'market_data': 'false',
+      'community_data': 'false',
+      'developer_data': 'false',
+    };
+
+    final result = await _http.get(
+      '/coins/$id',
+      headers: headers,
+      queryParams: params,
+    );
+
+    return result.map((response) {
+      return CryptoDetailsMapper.fromJson(response.body);
     });
   }
 }

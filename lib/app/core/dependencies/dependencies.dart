@@ -1,7 +1,7 @@
 import 'package:brasilcripto/app/core/services/http/dio_impl.dart';
 import 'package:brasilcripto/app/core/services/http/http_service.dart';
 import 'package:brasilcripto/app/data/repositories/crypto_repository.dart';
-import 'package:brasilcripto/app/data/repositories/favorites_respository.dart';
+import 'package:brasilcripto/app/data/repositories/favorites_repository.dart';
 import 'package:brasilcripto/app/presenter/view_models/cryptos_view_model.dart';
 import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';

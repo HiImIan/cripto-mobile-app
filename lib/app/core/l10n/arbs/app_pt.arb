@@ -1,8 +1,9 @@
 {
     "market": "Mercado",
     "favorites": "Favoritos",
-    "loading": "Carregando criptomoedas",
+    "loadingCryptos": "Carregando criptomoedas",
     "loadingFavorites": "Carregando seus favoritos",
+    "loadingDetails": "Carregando detalhes",
     "searchEngineLabel": "Pesquisar por nome ou símbolo...",
     "noFavoriteCryptos": "Você ainda não tem moedas favoritas",
     "searchMore": "Procurar mais resultados",
@@ -12,7 +13,9 @@
     "loadingMoreCryptos": "Carregar mais Criptos",
     "brazilCrypto":"Brasil Criptos",
     "actualPrice": "Preço atual",
+    "volume":"Volume",
     "totalVolume": "Volume no mercado",
+    "aDayVolume": "Volume 24h",
     "valuePercentage": "{percentage}%",
     "@valuePercentage": {
         "description": "{percentage}%",
@@ -22,8 +25,9 @@
             }
         }
     },
-    "price": "R$ {price}",
-    "@price": {
+    "price": "Preço",
+    "priceWithSymbol": "R$ {price}",
+    "@priceWithSymbol": {
         "description": "R$ {price}",
         "placeholders":{
             "price":{
@@ -46,5 +50,41 @@
     },
     "cancel": "Cancelar",
     "remove":"Remove",
-    "details": "Ver detalhes"
+    "details": "Ver detalhes",
+    "moneySymbol": "R\u0024",
+    "noValue": "N/A",
+    "ranking": "Ranking",
+    "marketStatistics" : "Estatísticas de Mercado",
+    "genesisDate": "Data de Criação",
+    "website": "Website",
+    "linkError": "Erro ao abrir link: {error}",
+    "@linkError": {
+        "description": "Erro ao abrir link: {error}",
+        "placeholders":{
+            "error":{
+                "type": "String"
+            }
+        }
+    },
+    "aboutCoin": "Sobre {coinName} - En/Us",
+    "@aboutCoin": {
+        "description": "Sobre {coinName}",
+        "placeholders":{
+            "coinName":{
+                "type": "String"
+            }
+        }
+    },
+    "noDescription": "Descrição não disponível.",
+    "noChartData": "Gráfico sem informações",
+    "noChartDetails": "Os dados das últimas 24h de {name} não estão disponíveis no momento.",
+    "@noChartDetails": {
+        "description": "Os dados das últimas 24h de {name} não estão disponíveis no momento.",
+        "placeholders":{
+            "name":{
+                "type": "String"
+            }
+        }
+    },
+    "lastTrades": "Últimas Operações"
 }

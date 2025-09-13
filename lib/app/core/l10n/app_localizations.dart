@@ -110,17 +110,23 @@ abstract class AppLocalizations {
   /// **'Favoritos'**
   String get favorites;
 
-  /// No description provided for @loading.
+  /// No description provided for @loadingCryptos.
   ///
   /// In pt, this message translates to:
   /// **'Carregando criptomoedas'**
-  String get loading;
+  String get loadingCryptos;
 
   /// No description provided for @loadingFavorites.
   ///
   /// In pt, this message translates to:
   /// **'Carregando seus favoritos'**
   String get loadingFavorites;
+
+  /// No description provided for @loadingDetails.
+  ///
+  /// In pt, this message translates to:
+  /// **'Carregando detalhes'**
+  String get loadingDetails;
 
   /// No description provided for @searchEngineLabel.
   ///
@@ -176,11 +182,23 @@ abstract class AppLocalizations {
   /// **'Preço atual'**
   String get actualPrice;
 
+  /// No description provided for @volume.
+  ///
+  /// In pt, this message translates to:
+  /// **'Volume'**
+  String get volume;
+
   /// No description provided for @totalVolume.
   ///
   /// In pt, this message translates to:
   /// **'Volume no mercado'**
   String get totalVolume;
+
+  /// No description provided for @aDayVolume.
+  ///
+  /// In pt, this message translates to:
+  /// **'Volume 24h'**
+  String get aDayVolume;
 
   /// {percentage}%
   ///
@@ -188,11 +206,17 @@ abstract class AppLocalizations {
   /// **'{percentage}%'**
   String valuePercentage(String percentage);
 
+  /// No description provided for @price.
+  ///
+  /// In pt, this message translates to:
+  /// **'Preço'**
+  String get price;
+
   /// R$ {price}
   ///
   /// In pt, this message translates to:
   /// **'R\$ {price}'**
-  String price(String price);
+  String priceWithSymbol(String price);
 
   /// No description provided for @removeFavorite.
   ///
@@ -223,6 +247,78 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Ver detalhes'**
   String get details;
+
+  /// No description provided for @moneySymbol.
+  ///
+  /// In pt, this message translates to:
+  /// **'R\$'**
+  String get moneySymbol;
+
+  /// No description provided for @noValue.
+  ///
+  /// In pt, this message translates to:
+  /// **'N/A'**
+  String get noValue;
+
+  /// No description provided for @ranking.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ranking'**
+  String get ranking;
+
+  /// No description provided for @marketStatistics.
+  ///
+  /// In pt, this message translates to:
+  /// **'Estatísticas de Mercado'**
+  String get marketStatistics;
+
+  /// No description provided for @genesisDate.
+  ///
+  /// In pt, this message translates to:
+  /// **'Data de Criação'**
+  String get genesisDate;
+
+  /// No description provided for @website.
+  ///
+  /// In pt, this message translates to:
+  /// **'Website'**
+  String get website;
+
+  /// Erro ao abrir link: {error}
+  ///
+  /// In pt, this message translates to:
+  /// **'Erro ao abrir link: {error}'**
+  String linkError(String error);
+
+  /// Sobre {coinName}
+  ///
+  /// In pt, this message translates to:
+  /// **'Sobre {coinName} - En/Us'**
+  String aboutCoin(String coinName);
+
+  /// No description provided for @noDescription.
+  ///
+  /// In pt, this message translates to:
+  /// **'Descrição não disponível.'**
+  String get noDescription;
+
+  /// No description provided for @noChartData.
+  ///
+  /// In pt, this message translates to:
+  /// **'Gráfico sem informações'**
+  String get noChartData;
+
+  /// Os dados das últimas 24h de {name} não estão disponíveis no momento.
+  ///
+  /// In pt, this message translates to:
+  /// **'Os dados das últimas 24h de {name} não estão disponíveis no momento.'**
+  String noChartDetails(String name);
+
+  /// No description provided for @lastTrades.
+  ///
+  /// In pt, this message translates to:
+  /// **'Últimas Operações'**
+  String get lastTrades;
 }
 
 class _AppLocalizationsDelegate

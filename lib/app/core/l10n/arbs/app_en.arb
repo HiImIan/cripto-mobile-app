@@ -1,18 +1,21 @@
 {
     "market": "Market",
     "favorites": "Favorites",
-    "loading": "Loading cryptocurrencies",
+    "loadingCryptos": "Loading cryptocurrencies",
     "loadingFavorites": "Loading your favorites",
+    "loadingDetails": "Loading details",
     "searchEngineLabel": "Search by name or symbol...",
     "noFavoriteCryptos": "You don’t have any favorite coins yet",
-    "searchMore": "Browse more coins",
-    "clickOnIconToFavorite": "Tap this icon to favorite",
+    "searchMore": "See more results",
+    "clickOnIconToFavorite": "Tap the icon to favorite",
     "errorList": "No cryptocurrencies found",
     "tryAgain": "Try again",
     "loadingMoreCryptos": "Loading more coins",
     "brazilCrypto": "Brazil Crypto",
     "actualPrice": "Current price",
+    "volume": "Volume",
     "totalVolume": "Market volume",
+    "aDayVolume": "24h volume",
     "valuePercentage": "{percentage}%",
     "@valuePercentage": {
         "description": "{percentage}%",
@@ -22,7 +25,8 @@
             }
         }
     },
-    "price": "R$ {price}",
+    "price": "Price",
+    "priceWithSymbol": "R$ {price}",
     "@price": {
         "description": "R$ {price}",
         "placeholders": {
@@ -45,5 +49,42 @@
         }
     },
     "cancel": "Cancel",
-    "remove": "Remove"
+    "remove": "Remove",
+    "details": "View details",
+    "moneySymbol": "R$",
+    "noValue": "N/A",
+    "ranking": "Ranking",
+    "marketStatistics": "Market statistics",
+    "genesisDate": "Launch date",
+    "website": "Website",
+    "linkError": "Couldn’t open link: {error}",
+    "@linkError": {
+        "description": "Couldn’t open link: {error}",
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutCoin": "About {coinName}",
+    "@aboutCoin": {
+        "description": "About {coinName}",
+        "placeholders": {
+            "coinName": {
+                "type": "String"
+            }
+        }
+    },
+    "noDescription": "Description not available.",
+    "noChartData": "No chart data available",
+    "noChartDetails": "24h data for {name} is currently unavailable.",
+    "@noChartDetails": {
+        "description": "24h data for {name} is currently unavailable.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "lastTrades": "Latest trades"
 }

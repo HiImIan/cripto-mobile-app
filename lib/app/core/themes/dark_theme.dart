@@ -6,11 +6,20 @@ class AppTheme {
     scaffoldBackgroundColor: CustomColors.background,
     appBarTheme: AppBarTheme(
       color: CustomColors.background,
+      titleTextStyle: TextStyle(
+        color: CustomColors.background,
+        fontWeight: FontWeight.bold,
+      ),
+      iconTheme: IconThemeData(color: CustomColors.background),
       elevation: 0,
       centerTitle: true,
       actionsIconTheme: IconThemeData(color: CustomColors.white),
     ),
-
+    cardTheme: CardThemeData(
+      color: CustomColors.cardBackground,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      elevation: 1,
+    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       backgroundColor: CustomColors.background,
@@ -19,6 +28,15 @@ class AppTheme {
       elevation: 0,
       showUnselectedLabels: false,
       selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        overlayColor: WidgetStatePropertyAll(CustomColors.background),
+        foregroundColor: WidgetStatePropertyAll(CustomColors.white),
+        textStyle: WidgetStateProperty.all(
+          TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
     ),
     textTheme: TextTheme(
       titleLarge: TextStyle(color: CustomColors.white),
@@ -49,10 +67,13 @@ class AppTheme {
       brightness: Brightness.dark,
       surface: CustomColors.background,
       onSurface: CustomColors.white,
+      outlineVariant: CustomColors.transparentGreenOutline,
       onSurfaceVariant: CustomColors.graySwatch.shade300,
       primary: CustomColors.green,
+      primaryFixedDim: CustomColors.transparentGreen,
       inversePrimary: CustomColors.redSwatch.shade400,
       primaryFixed: CustomColors.redSwatch.shade700,
+      onPrimaryFixedVariant: CustomColors.transparentRed,
       primaryContainer: CustomColors.cardBackground,
       onPrimary: CustomColors.black,
       error: CustomColors.redSwatch,

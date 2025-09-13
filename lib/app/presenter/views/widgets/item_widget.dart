@@ -42,9 +42,6 @@ class CryptosItemWidget extends StatelessWidget {
 
     final l10n = LocalizationService.instance.l10n;
     return Card(
-      color: colors.primaryContainer,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      elevation: 1,
       child: Padding(
         padding: const EdgeInsets.only(top: 16, bottom: 4, left: 16, right: 16),
         child: Column(
@@ -108,9 +105,7 @@ class CryptosItemWidget extends StatelessWidget {
               children: [
                 if (hasPrice)
                   Text(
-                    l10n.price(
-                      Price.formatCurrency(currentPrice).replaceAll('.', ','),
-                    ),
+                    Price.formatterBr(currentPrice),
                     style: textStyle.headlineSmall?.copyWith(
                       color: colors.onSurface,
                       fontWeight: FontWeight.bold,
@@ -140,11 +135,6 @@ class CryptosItemWidget extends StatelessWidget {
                     ),
                   ),
                 TextButton(
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.all(0),
-
-                    fixedSize: Size(MediaQuery.sizeOf(context).width * 0.2, 25),
-                  ),
                   onPressed: () {
                     context.push(Routes.cryptoDetails(crypto.id));
                   },

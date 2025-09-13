@@ -27,11 +27,17 @@ abstract class CustomColors {
     800: Color(0xFF811A18),
   });
 
+  static const Color transparentRed = Color(0x24C1362F);
+
   // Primary colors
   static const Color green = Color(0xFF11CB56);
+  static const Color transparentGreen = Color(0x5F11CB55);
+  static const Color outline = Color(0xFF899294);
+  static const Color transparentGreenOutline = Color(0x2B899294);
 
   // Secondary colors
   static const Color amber = Color(0xFFD3B60F);
+  static const Color transparentAmber = Color(0x6CD3B50F);
 
   // Background colors
   static const Color cardBackground = Color(0xFF19213A);

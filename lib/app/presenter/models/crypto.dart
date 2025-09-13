@@ -1,4 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:brasilcripto/app/presenter/models/crypto/crypto_details.dart';
+
 class Crypto {
   final String id;
   final String symbol;
@@ -8,6 +9,7 @@ class Crypto {
   final double? percentageChange;
   final double? totalVolume;
   final bool isFavorite;
+  final CryptoDetails? details;
 
   const Crypto({
     required this.id,
@@ -18,18 +20,26 @@ class Crypto {
     this.percentageChange,
     this.totalVolume,
     this.isFavorite = false,
+    this.details,
   });
 
-  Crypto copyWith({bool? isFavorite}) {
+  Crypto copyWith({
+    double? currentPrice,
+    double? percentageChange,
+    double? totalVolume,
+    bool? isFavorite,
+    CryptoDetails? details,
+  }) {
     return Crypto(
       id: id,
       symbol: symbol,
       name: name,
       image: image,
-      currentPrice: currentPrice,
-      percentageChange: percentageChange,
-      totalVolume: totalVolume,
+      currentPrice: currentPrice ?? this.currentPrice,
+      percentageChange: percentageChange ?? this.percentageChange,
+      totalVolume: totalVolume ?? this.totalVolume,
       isFavorite: isFavorite ?? this.isFavorite,
+      details: details ?? this.details,
     );
   }
 }

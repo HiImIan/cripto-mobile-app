@@ -1,6 +1,7 @@
 import 'package:brasilcripto/app/data/repositories/crypto_repository.dart';
-import 'package:brasilcripto/app/data/repositories/favorites_respository.dart';
+import 'package:brasilcripto/app/data/repositories/favorites_repository.dart';
 import 'package:brasilcripto/app/presenter/models/crypto.dart';
+import 'package:brasilcripto/app/presenter/models/crypto/crypto_details.dart';
 import 'package:flutter/material.dart';
 
 // Extension to remove duplicates by ID
@@ -34,6 +35,7 @@ class CryptosViewModel extends ChangeNotifier {
   // Internal state
   final List<Crypto> _cryptos = [];
   final List<Crypto> _searchedCryptos = [];
+  Crypto? _currentCrypto;
   int _currentPage = 0;
   bool _isLoading = false;
   String? _error;
@@ -45,6 +47,7 @@ class CryptosViewModel extends ChangeNotifier {
   List<Crypto> get cryptos => hasSearchValue
       ? List.unmodifiable(_searchedCryptos)
       : List.unmodifiable(_cryptos);
+  Crypto? get currentCrypto => _currentCrypto;
   List<Crypto> get favoriteCryptos {
     final Map<String, Crypto> uniqueFavorites = {};
     for (final crypto in _cryptos) {
@@ -72,9 +75,11 @@ class CryptosViewModel extends ChangeNotifier {
        _favoritesRepository = favoritesRepository,
        searchController = TextEditingController();
 
-  //=======================================================
-  //---------------- Métodos Existentes ------------------
-  //=======================================================
+  /// Updates the complete list (refresh)
+  Future<void> refresh() async {
+    _resetState();
+    await _performLoad();
+  }
 
   /// Loads more cryptos (pagination)
   Future<void> loadMore() async {
@@ -82,14 +87,62 @@ class CryptosViewModel extends ChangeNotifier {
     await _performLoad();
   }
 
-  /// Updates the complete list (refresh)
-  Future<void> refresh() async {
-    _resetState();
-    await _performLoad();
+  /// Loads details for a specific crypto
+  Future<void> loadDetails(String cryptoId) async {
+    if (_isLoading) return;
+
+    _setLoadingState(true);
+
+    final detailsResult = await _cryptoRepository.getDetails(cryptoId);
+
+    detailsResult.fold((error) => _error = error.message, (cryptoDetails) {
+      final mainIndex = _cryptos.indexWhere((c) => c.id == cryptoId);
+      if (mainIndex != -1) {
+        _cryptos[mainIndex] = _cryptos[mainIndex].copyWith(
+          details: cryptoDetails,
+        );
+      }
+
+      final searchIndex = _searchedCryptos.indexWhere((c) => c.id == cryptoId);
+      if (searchIndex != -1) {
+        _searchedCryptos[searchIndex] = _searchedCryptos[searchIndex].copyWith(
+          details: cryptoDetails,
+        );
+      }
+      setCurrentCryptoDetails(cryptoDetails);
+    });
+    _setLoadingState(false);
   }
 
-  /// Retorna informações necessárias para confirmação de remoção
-  /// A View usa isso para mostrar o dialog, mas não decide a lógica
+  void setCurrentCrypto(Crypto crypto) => _currentCrypto = crypto;
+
+  void setCurrentCryptoDetails(CryptoDetails details) {
+    _currentCrypto = _currentCrypto!.copyWith(details: details);
+    notifyListeners();
+  }
+
+  /// Gets a crypto with details (loads if not present)
+  Future<Crypto?> getCryptoWithDetails(String cryptoId) async {
+    final crypto = _findCrypto(cryptoId);
+    if (crypto == null) return null;
+
+    // If already have details, you return
+    if (crypto.details != null) return crypto;
+
+    // If not, it carries the details
+    await loadDetails(cryptoId);
+
+    // Returns the updated Crypto
+    return _findCrypto(cryptoId);
+  }
+
+  /// Checks if a crypto has details loaded
+  bool hasDetails(String cryptoId) {
+    final crypto = _findCrypto(cryptoId);
+    return crypto?.details != null;
+  }
+
+  /// Returns information required for removal confirmation
   Crypto? getRemoveFavoriteInfo(String cryptoId) {
     final crypto = _findCrypto(cryptoId);
     if (crypto == null || !crypto.isFavorite) return null;
@@ -159,8 +212,8 @@ class CryptosViewModel extends ChangeNotifier {
       return;
     }
     _searchedCryptos.clear();
-    final iguais = _filterCryptosByQuery(_cryptos, query);
-    _searchedCryptos.addAll(iguais);
+    final equal = _filterCryptosByQuery(_cryptos, query);
+    _searchedCryptos.addAll(equal);
     notifyListeners();
   }
 

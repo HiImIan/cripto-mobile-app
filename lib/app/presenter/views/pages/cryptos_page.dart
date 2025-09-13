@@ -1,7 +1,8 @@
+import 'package:brasilcripto/app/core/l10n/l10n.dart';
 import 'package:brasilcripto/app/presenter/view_models/cryptos_view_model.dart';
 import 'package:brasilcripto/app/presenter/views/widgets/cryptos/cryptos_list_widget.dart';
 import 'package:brasilcripto/app/presenter/views/widgets/cryptos/exceptions/cryptos_error_widget.dart';
-import 'package:brasilcripto/app/presenter/views/widgets/cryptos/exceptions/cryptos_load_widget.dart';
+import 'package:brasilcripto/app/presenter/views/widgets/load_widget.dart';
 import 'package:flutter/material.dart';
 
 class CryptosPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _CryptoScreenState extends State<CryptosPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = LocalizationService.instance.l10n;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8),
@@ -27,7 +29,7 @@ class _CryptoScreenState extends State<CryptosPage> {
             final hasSearchResults = cryptosViewModel.hasSearchResults;
             if (isLoading &&
                 (cryptosViewModel.cryptos.isEmpty || hasSearchResults)) {
-              return CryptosLoadWidget();
+              return LoadWidget(label: l10n.loadingCryptos);
             }
 
             if (hasError) return CryptosErrorWidget();

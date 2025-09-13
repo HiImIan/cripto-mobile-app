@@ -15,10 +15,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get favorites => 'Favoritos';
 
   @override
-  String get loading => 'Carregando criptomoedas';
+  String get loadingCryptos => 'Carregando criptomoedas';
 
   @override
   String get loadingFavorites => 'Carregando seus favoritos';
+
+  @override
+  String get loadingDetails => 'Carregando detalhes';
 
   @override
   String get searchEngineLabel => 'Pesquisar por nome ou símbolo...';
@@ -48,7 +51,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actualPrice => 'Preço atual';
 
   @override
+  String get volume => 'Volume';
+
+  @override
   String get totalVolume => 'Volume no mercado';
+
+  @override
+  String get aDayVolume => 'Volume 24h';
 
   @override
   String valuePercentage(String percentage) {
@@ -56,7 +65,10 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String price(String price) {
+  String get price => 'Preço';
+
+  @override
+  String priceWithSymbol(String price) {
     return 'R\$ $price';
   }
 
@@ -76,4 +88,46 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get details => 'Ver detalhes';
+
+  @override
+  String get moneySymbol => 'R\$';
+
+  @override
+  String get noValue => 'N/A';
+
+  @override
+  String get ranking => 'Ranking';
+
+  @override
+  String get marketStatistics => 'Estatísticas de Mercado';
+
+  @override
+  String get genesisDate => 'Data de Criação';
+
+  @override
+  String get website => 'Website';
+
+  @override
+  String linkError(String error) {
+    return 'Erro ao abrir link: $error';
+  }
+
+  @override
+  String aboutCoin(String coinName) {
+    return 'Sobre $coinName - En/Us';
+  }
+
+  @override
+  String get noDescription => 'Descrição não disponível.';
+
+  @override
+  String get noChartData => 'Gráfico sem informações';
+
+  @override
+  String noChartDetails(String name) {
+    return 'Os dados das últimas 24h de $name não estão disponíveis no momento.';
+  }
+
+  @override
+  String get lastTrades => 'Últimas Operações';
 }

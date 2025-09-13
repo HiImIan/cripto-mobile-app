@@ -2,7 +2,7 @@ import 'package:brasilcripto/app/core/l10n/l10n.dart';
 import 'package:brasilcripto/app/presenter/view_models/cryptos_view_model.dart';
 import 'package:brasilcripto/app/presenter/views/pages/cryptos_favorites_page.dart';
 import 'package:brasilcripto/app/presenter/views/pages/cryptos_page.dart';
-import 'package:brasilcripto/app/presenter/views/widgets/cryptos_search_field_widget.dart';
+import 'package:brasilcripto/app/presenter/views/widgets/cryptos/cryptos_search_field_widget.dart';
 import 'package:brasilcripto/app/presenter/views/widgets/main_bottom_navigation_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -20,9 +20,6 @@ class _MainCryptoTabsState extends State<MainCryptoTabs> {
   int _requestCurrentPage = 0;
 
   bool get _isOnCryptosTab => _requestCurrentPage == 0;
-  bool get _isOnFavoritesTab => _requestCurrentPage == 1;
-  bool get _shouldShowClearFavoritesButton =>
-      _isOnFavoritesTab && cryptosViewModel.favoriteCryptos.isNotEmpty;
 
   @override
   void initState() {
@@ -48,12 +45,6 @@ class _MainCryptoTabsState extends State<MainCryptoTabs> {
     );
   }
 
-  // Clear favorites with navigation
-  void _clearAllFavoritesAndGoHome() {
-    cryptosViewModel.deleteAllFavorites();
-    _navigateToTab(0);
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -65,20 +56,17 @@ class _MainCryptoTabsState extends State<MainCryptoTabs> {
       builder: (_, __) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(l10n.brazilCrypto, style: theme.textTheme.titleLarge),
+            title: Text(
+              l10n.brazilCrypto,
+              style: theme.textTheme.headlineSmall,
+            ),
             backgroundColor: colors.primary,
             actions: [
               IconButton(
                 icon: const Icon(Icons.replay_outlined),
-                splashRadius: 16,
+                splashRadius: 24,
                 onPressed: cryptosViewModel.refresh,
               ),
-              if (_shouldShowClearFavoritesButton)
-                IconButton(
-                  icon: const Icon(Icons.playlist_remove),
-                  splashRadius: 16,
-                  onPressed: _clearAllFavoritesAndGoHome,
-                ),
             ],
           ),
           bottomNavigationBar: CryptoBottomNavigationBar(
