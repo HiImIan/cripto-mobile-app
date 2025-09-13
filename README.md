@@ -26,15 +26,6 @@ App Flutter para acompanhar criptomoedas em tempo real usando a API CoinGecko.
 - **SharedPreferences** - Persistência local
 - **CoinGecko API** - Dados de criptomoedas
 
-## 📸 Screenshots
-
-<div align="center">
-  <img src="screenshots/home.png" width="200" alt="Tela Principal"/>
-  <img src="screenshots/search.png" width="200" alt="Busca"/>
-  <img src="screenshots/details.png" width="200" alt="Detalhes"/>
-  <img src="screenshots/favorites.png" width="200" alt="Favoritos"/>
-</div>
-
 ## 🚀 Como executar
 
 ```bash
@@ -78,11 +69,6 @@ flutter build apk --release
 - Volume e market cap
 - Informações detalhadas
 
-## 📱 APK Release
-
-O APK está disponível na seção [Releases](https://github.com/SEU_USUARIO/brasilcripto/releases) com:
-- Versão de produção otimizada
-
 ## 🤝 Contribuindo
 
 1. Fork o projeto
@@ -90,11 +76,7 @@ O APK está disponível na seção [Releases](https://github.com/SEU_USUARIO/bra
 3. Commit suas mudanças (`git commit -m 'Add nova feature'`)
 4. Push para a branch (`git push origin feature/nova-feature`)
 5. Abra um Pull Request
-
-## 📄 Licença
-
-MIT License - veja [LICENSE](LICENSE) para detalhes.
-
+   
 ---
 
 **Desenvolvido com ❤️ Flutter | Dados por CoinGecko**
