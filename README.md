@@ -4,7 +4,7 @@ App Flutter para acompanhar criptomoedas em tempo real usando a API CoinGecko.
 
 ## 📱 Download APK
 
-[![Download APK](https://img.shields.io/badge/📱%20Download%20APK-v1.0.0-blue?style=for-the-badge&logo=android)](https://github.com/SEU_USUARIO/brasilcripto/releases/download/v1.0.0/brasilcripto-v1.0.0.apk)
+[![Download APK](https://img.shields.io/badge/📱%20Download%20APK-v1.0.0-blue?style=for-the-badge&logo=android)](https://drive.google.com/file/d/1CiUYUwB5y0nJAcyS1BDLNa0fYDC-IXOP/view?usp=drive_link)
 
 **Android 6.0+ | ~15MB**
 
